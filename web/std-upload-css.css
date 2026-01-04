@@ -1,0 +1,209 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 13, 2025, 4:21:29 PM
+    Author     : pieka
+*/
+
+/* ===== Page background ===== */
+.page-section {
+  min-height: 100vh;
+  background:eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ===== Card ===== */
+.upload-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* ===== Header ===== */
+.upload-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.upload-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.upload-card__header a {
+  font-size: 22px;
+  text-decoration: none;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* ===== Body ===== */
+.upload-card__body {
+  padding: 16px 20px;
+}
+
+/* Helper info */
+.upload-helper {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: #4b5563;
+  margin-bottom: 20px;
+}
+
+.upload-info-icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;        
+  line-height: 1;
+  border-radius: 50%;
+  border: 1px solid #9ca3af;
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Labels */
+.upload-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+/* ===== Dropzone ===== */
+.upload-dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone:focus {
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+.upload-dropzone__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-icon {
+  font-size: 36px;
+  color: #6b7280;
+}
+
+.upload-dz-text {
+  font-weight: 600;
+  color: #111827;
+}
+
+.upload-dz-or {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Browse button */
+.upload-browse-btn {
+  background: #2563eb;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.upload-browse-btn:hover {
+  background: #1d4ed8;
+}
+
+.upload-file-name {
+  font-size: 14px;
+  color: #2563eb;
+  margin-bottom: 18px;
+}
+
+/* ===== Remarks ===== */
+.upload-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.upload-input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== Footer ===== */
+.upload-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #374151;
+}
+
+.btn-secondary:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.upload-note {
+  font-size: 12px;
+  color: #6b7280;
+}

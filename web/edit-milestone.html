@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Project Milestone | FYP Tracker</title>
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    /* HEADER */
+    .header {
+        background: #ffffff;
+        padding: 16px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .breadcrumb {
+    font-size: 14px;
+    color: #555;
+    margin: 20px auto;
+    max-width: 2500px; 
+    padding: 0 30px;  
+    }
+    .breadcrumb a {
+    text-decoration: none;   
+    color: #555;            
+    font-weight: normal;
+    cursor: pointer;
+    }
+    
+    .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #bbb;
+    }
+
+    .logout {
+        background: #ef4444;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    /* CONTENT */
+    .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        margin-bottom: 25px;
+        font-size: 22px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    label {
+        display: block;
+        margin-top: 18px;
+        font-weight: bold;
+        font-size: 14px;
+        color: #374151;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border-radius: 5px;
+        border: 1px solid #d1d5db;
+        font-size: 14px;
+    }
+
+    textarea {
+        resize: none;
+        height: 90px;
+    }
+
+    .btn-group {
+        margin-top: 30px;
+        text-align: right;
+    }
+
+    .btn-group button {
+        padding: 8px 22px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn-update {
+        background-color: #2563eb;
+        color: #fff;
+        margin-right: 10px;
+    }
+
+    .btn-close {
+        background-color: #9ca3af;
+        color: #fff;
+    }
+    .dashboard-footer {
+    display: flex;
+    flex-direction: column;     /* stack text & links */
+    align-items: center;        /* horizontal center */
+    justify-content: center;    /* vertical center */
+    padding: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #555;
+}
+
+.dashboard-footer p {
+    margin: 0 0 8px 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;                  /* space between links */
+}
+
+.footer-links a {
+    text-decoration: none;      /* remove underline */
+    color: #555;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    color: #000;
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="user-info">
+        <div class="avatar"></div>
+        <div>
+            <strong>DR. AHMAD BIN ALI</strong><br>
+            <small>Supervisor</small>
+        </div>
+    </div>
+    <button class="logout">Logout</button>
+</div>
+<div class="breadcrumb">
+           <a href="dashboard-sv.html">Dashboard</a> / <a href="project-list.html">Project List</a> / <a href="edit-milestone.html"><strong> Edit Milestone</strong></a>
+    </div>
+<!-- CONTENT -->
+<div class="container">
+    <h2>Edit Project Milestone</h2>
+
+    <label>Milestone</label>
+    <input type="text" value="Milestone 1">
+
+    <label>Task</label>
+    <textarea>Make proposal</textarea>
+
+    <label>Start Date</label>
+    <input type="date" value="2025-02-01">
+
+    <label>End Date</label>
+    <input type="date" value="2025-02-04">
+
+    <div class="btn-group">
+        <a href="milestone.html">
+            <button class="btn-update">Update</button>
+        </a>
+
+        <a href="milestone.html">
+            <button class="btn-close">Close</button>
+        </a>
+    </div>
+</div>
+ <footer class="dashboard-footer">
+            <p>&copy; 2025 FYP Supervision. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </footer>
+</body>
+</html>

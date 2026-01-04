@@ -1,0 +1,202 @@
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body.body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: eef2ff;
+  color: #111;
+  display: flex;
+  flex-direction: column; 
+}
+
+/* ===================== Header ===================== */
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: sticky;     
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1100px;     
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.welcome-text {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.welcome-text #studentName { font-weight: 600; }
+.student-id { color: #6b7280; font-size: 12px; }
+
+.header-actions .header-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e54b4b;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.header-actions .header-button:hover { background: #d64040; }
+
+/* ===================== Main ===================== */
+.main-content { flex: 1; }
+
+.top-bar {
+  max-width: 1100px;      
+  margin: 16px auto 0;
+  padding: 0 16px;
+}
+
+.breadcrumb { color: #6b7280; font-size: 14px; }
+.breadcrumb a { color: #4b5563; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb-divider { margin: 0 6px; color: #9ca3af; }
+.breadcrumb-current { color: #2563eb; font-weight: 600; }
+
+.content-container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* ===================== Card ===================== */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.25);
+  padding: 18px 18px 22px;
+  width: 100%;
+  max-width: 640px;      
+  margin: 0 auto;        
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title { display: flex; align-items: center; gap: 10px; }
+
+.indicator {
+  width: 6px;
+  height: 22px;
+  background-color: #2563eb; 
+  border-radius: 3px;
+}
+
+.card-header h3 {
+  color: #2563eb;  
+  font-size: 18px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: 1px solid #e5e7eb; 
+  color: #6b7280;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.close-btn:hover { background: #f3f4f6; color: #374151; }
+
+.card-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 14px 0 18px;
+}
+
+.card-body {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap; 
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;     
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  color: #374151;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.03);
+}
+
+.btn.primary {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+}
+.btn.primary:hover { background-color: #1e40af; }
+
+.btn.secondary:hover { background-color: #f3f4f6; }
+
+/* ===================== Footer ===================== */
+.footer {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-container {
+  max-width: 1100px;  
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-text { 
+    color: #6b7280; font-size: 13px; 
+}
+
+.footer-links { 
+    display: inline-flex; gap: 18px; 
+}
+
+.footer-link { 
+    color: #4b5563; 
+    text-decoration: none; 
+    font-size: 13px; 
+}
+
+.footer-link:hover { 
+    text-decoration: underline; 
+}
+
+
