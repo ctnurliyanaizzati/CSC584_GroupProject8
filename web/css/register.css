@@ -101,11 +101,11 @@ body::before {
 }
 
 .form-actions { 
-    grid-column: 1 / -1; 
-    display: flex; 
-    justify-content: center; 
-    margin-top: 50px;
-    margin-bottom: 24px;
+  grid-column: 1 / -1; 
+  display: flex; 
+  justify-content: center; 
+  margin-top: 50px;
+  margin-bottom: 24px;
 
 .btn {
   padding: 10px 16px;
