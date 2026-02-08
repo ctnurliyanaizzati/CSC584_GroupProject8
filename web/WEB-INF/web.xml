@@ -4,9 +4,33 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MilestoneStdServlet</servlet-name>
+        <servlet-class>controller.MilestoneStdServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmissionStdServlet</servlet-name>
+        <servlet-class>controller.SubmissionStdServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>dashboardStdServlet</servlet-name>
+        <servlet-class>controller.dashboardStdServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MilestoneStdServlet</servlet-name>
+        <url-pattern>/MilestoneStdServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmissionStdServlet</servlet-name>
+        <url-pattern>/SubmissionStdServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dashboardStdServlet</servlet-name>
+        <url-pattern>/dashboardStdServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
