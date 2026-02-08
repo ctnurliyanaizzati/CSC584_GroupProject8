@@ -22,7 +22,7 @@ import model.UserBean;
  *
  * @author PIEKA
  */
-@WebServlet(name = "dashboardStdServlet", urlPatterns = {"/dashboardStdServlet"})
+//@WebServlet(name = "dashboardStdServlet", urlPatterns = {"/dashboardStdServlet"})
 public class dashboardStdServlet extends HttpServlet {
 
     /**

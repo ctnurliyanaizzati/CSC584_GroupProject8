@@ -24,7 +24,7 @@ import model.MilestoneStdBean;
  *
  * @author PIEKA
  */
-@WebServlet(name = "MilestoneStdServlet", urlPatterns = {"/MilestoneStdServlet"})
+//@WebServlet(name = "MilestoneStdServlet", urlPatterns = {"/MilestoneStdServlet"})
 public class MilestoneStdServlet extends HttpServlet {
 
     /**
