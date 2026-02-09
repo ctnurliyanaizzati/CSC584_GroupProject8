@@ -107,5 +107,26 @@ public class ProjectBean implements Serializable {
         this.completed_tasks = completed_tasks;
     }
     
+        // Add this near the top with other variables
+    private String student_name;
+
+    // Add these methods at the bottom
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
     
+    private String program_code;
+
+    public String getProgram_code() {
+        return program_code;
+    }
+
+    public void setProgram_code(String program_code) {
+        this.program_code = program_code;
+    }
+
 }
