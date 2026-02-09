@@ -42,13 +42,15 @@ public class SubmissionStdServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        //Get data from form JSP
         String milestoneId = request.getParameter("milestone_id");
         String remarks = request.getParameter("remarks");
         Part filePart = request.getPart("submission_file_path"); 
-        String fileName = filePart.getSubmittedFileName();
+        String fileName = (filePart != null) ? filePart.getSubmittedFileName(): "no_file";
                 
         try{
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
+            //Query 1: Store record to SUBMISSIOM table
             String query = "INSERT INTO SUBMISSION(MILESTONE_ID, SUBMISSION_DATE, SUBMISSION_FILE_PATH, SUBMISSION_REMARKS, SUBMISSION_STATUS) VALUES (?, CURRENT_TIMESTAMP, ?, ?, 'Submitted')";
             
             //insert into submission
@@ -58,7 +60,7 @@ public class SubmissionStdServlet extends HttpServlet {
             stmt.setString(3, remarks);
             stmt.executeUpdate();
             
-            //update status from OPEN to SUBMITTED
+            //Query 2: Update status from OPEN to SUBMITTED
             String queryUpdate = "UPDATE MILESTONE SET STATUS = 'SUBMITTED' WHERE MILESTONE_ID = ?";
             
             PreparedStatement stmtUpdate = conn.prepareStatement(queryUpdate);
@@ -69,7 +71,8 @@ public class SubmissionStdServlet extends HttpServlet {
         
         } catch (Exception e) {
             e.printStackTrace();
-        }
+            response.getWriter().println("Error Database: " + e.getMessage());
+        } 
         
     }   
 

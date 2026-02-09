@@ -6,7 +6,25 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
+<%@page import="model.UserBean"%>
 <%@page import="model.MilestoneStdBean"%>
+
+
+<%
+    //Get data from Session
+    UserBean user = (UserBean) session.getAttribute("userData");
+    
+    String full_name;
+    String user_id;
+    
+    if (user != null) {
+        full_name = user.getFull_name();
+        user_id = String.valueOf(user.getUser_id());
+    } else {
+        full_name = "NUR SYAFIQAH";
+        user_id = "2025000000";
+    }
+%>
 
 <%
     //Get list from Servlet
@@ -43,8 +61,8 @@
         <div id="id2x5" class="brand-group header-spacer">
           <img src="https://app.grapesjs.com/api/assets/random-image?query=%22student%20portrait%22&amp;w=80&amp;h=80" alt="Student photo" class="avatar-img" id="ifs3pk" />
           <span class="welcome-text" id="welcomeText">
-               <span id="studentName">NUR SYAFIQAH BINTI MAT RADZI</span><br>
-                <span class="student-id" id="studentId">2025107905</span>
+               <span id="studentName"><%= full_name %></span><br>
+                <span class="student-id" id="studentId"><%= user_id %></span>
             </span>
         </div>
         <nav id="i97rf" class="header-actions">
@@ -59,7 +77,7 @@
     <main id="main-content" class="main-content">
           <nav class="top-bar" id="top-bar">
              <div class="breadcrumb" id="breadcrumb">
-                <a href="dashboard-std.html" class="gjs-t-link breadcrumb-link" id="ixx2y">Dashboard</a>
+                <a href="dashboardStdServlet" class="gjs-t-link breadcrumb-link" id="ixx2y">Dashboard</a>
                 <span class="breadcrumb-divider" id="i9h82">/</span>
                 <span class="breadcrumb-current" id="ioi6w">Milestones</span>
             </div>
@@ -188,6 +206,7 @@
             </a>
         </td>
         <td class="cell-feedback">
+            <a href="feedback-sv.jsp?milestone_id=<%= ms.getMilestone_id() %>" style="text-decoration: none;">
             <button type="button" class="feedback-button">
                 <img src="https://api.iconify.design/lucide-eye.svg?color=white" alt="" aria-hidden="true" class="icon-eye" />
                 <span>View Feedback</span>

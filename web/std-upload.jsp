@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.UserBean"%>
 <!DOCTYPE html>
 
     <head>
@@ -18,7 +19,24 @@
         <link rel="stylesheet" href="milestones-css.css">
         <link rel="stylesheet" href="std-upload-css.css">
     </head>
-
+<%
+   //Get data from Session
+    UserBean user = (UserBean) session.getAttribute("userData");
+    
+    String full_name;
+    String user_id;
+    
+    if (user != null) {
+        full_name = user.getFull_name();
+        user_id = String.valueOf(user.getUser_id());
+    } else {
+        full_name = "NUR SYAFIQAH";
+        user_id = "2025000000";
+    }
+    
+    //Get milestone_id from URL ?milestone_id=XXX
+    String milestone_id = request.getParameter("milestone_id");
+%>
     <body class="body">   
         
         <header class="header">
@@ -26,8 +44,8 @@
             <div id="id2x5" class="brand-group header-spacer">
                 <img src="https://app.grapesjs.com/api/assets/random-image?query=%22student%20portrait%22&amp;w=80&amp;h=80" alt="Student photo" class="avatar-img"/>
                 <span class="welcome-text" id="welcomeText">
-                    <span id="studentName">NUR SYAFIQAH BINTI MAT RADZI</span><br>
-                    <span class="student-id" id="studentId">2025107905</span>
+                    <span id="studentName"><%= full_name %></span><br>
+                    <span class="student-id" id="studentId"><%= user_id %></span>
                 </span>
             </div>
             <nav id="i97rf" class="header-actions">
@@ -42,9 +60,9 @@
     <main class="main-content">
           <nav class="top-bar">
              <div class="breadcrumb" id="breadcrumb">
-                <a href="dashboard-std.html" class="breadcrumb-link">Dashboard</a>
+                <a href="dashboardStdServlet" class="breadcrumb-link">Dashboard</a>
                 <span class="breadcrumb-divider">/</span>
-                <a href="milestones-std.html" class="breadcrumb-link">Milestones</a>
+                <a href="MilestoneStdServlet" class="breadcrumb-link">Milestones</a>
                 <span class="breadcrumb-divider">/</span>
                 <span class="breadcrumb-current">Upload</span>
             </div>
@@ -54,7 +72,7 @@
     
 <!-- ===== Upload Section ===== -->
 
-<% String milestone_id = request.getParameter("milestone_id"); %> 
+<%--<% String milestone_id = request.getParameter("milestone_id"); %>--%>
 
     <section class="page-section">
         <form action="SubmissionStdServlet" method="POST" enctype="multipart/form-data">
@@ -91,7 +109,7 @@
         </div>
 
     <div class="upload-card__footer">
-        <button type="button" class="btn btn-secondary" id="btnCancel">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="btnCancel" onclick="history.back()">Cancel</button>
       <div class="upload-actions">
           <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
       </div>
@@ -113,3 +131,51 @@
     </body>
 
 </html>
+
+<script>
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileName');
+
+    // 1. Halang browser daripada buka file bila kita drag masuk
+    ['dragover', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+
+    // 2. Efek visual bila file ada di atas kotak (Optional)
+    dropzone.addEventListener('dragover', () => {
+        dropzone.classList.add('upload-dropzone--active');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('upload-dropzone--active');
+    });
+
+    // 3. Bila user DROP file
+    dropzone.addEventListener('drop', (e) => {
+        dropzone.classList.remove('upload-dropzone--active');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files; // Masukkan file ke dalam input hidden tadi
+            updateFileName(files[0].name); // Paparkan nama file
+        }
+    });
+
+    // 4. Bila user guna butang 'Browse' (bukan drag)
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            updateFileName(fileInput.files[0].name);
+        }
+    });
+
+    // Fungsi untuk paparkan nama file dalam kotak
+    function updateFileName(name) {
+        fileNameDisplay.textContent = "Selected file: " + name;
+        fileNameDisplay.style.color = "#2d3436";
+        fileNameDisplay.style.fontWeight = "bold";
+    }
+</script>

@@ -21,8 +21,8 @@
   
   <%
       //Get data from DashboardStdServlet
-      ProjectBean project = (ProjectBean) request.getAttribute("projectData");
-      UserBean user = (UserBean) request.getAttribute("userData");
+      ProjectBean project = (ProjectBean) session.getAttribute("projectData");
+      UserBean user = (UserBean) session.getAttribute("userData");
       
       //Error checking
       if(project == null){

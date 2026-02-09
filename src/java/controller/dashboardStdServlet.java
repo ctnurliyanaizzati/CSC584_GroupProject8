@@ -84,8 +84,8 @@ public class dashboardStdServlet extends HttpServlet {
             e.printStackTrace();
         }
         
-        request.setAttribute("userData", user);
-        request.setAttribute("projectData", project);
+        request.getSession().setAttribute("userData", user);
+        request.getSession().setAttribute("projectData", project);
         
         request.getRequestDispatcher("dashboard-std.jsp").forward(request, response);
         
