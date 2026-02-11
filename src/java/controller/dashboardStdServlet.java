@@ -16,13 +16,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.ProjectBean;
 import model.UserBean;
 /**
  *
  * @author PIEKA
  */
-//@WebServlet(name = "dashboardStdServlet", urlPatterns = {"/dashboardStdServlet"})
+@WebServlet(name = "dashboardStdServlet", urlPatterns = {"/dashboardStdServlet"})
 public class dashboardStdServlet extends HttpServlet {
 
     /**
@@ -39,7 +40,14 @@ public class dashboardStdServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
     
         //temp id untuk testing before siap login
-        int tempUserId = 2025123456;
+        //int tempUserId = 2025123456;
+        HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("user_id") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+            
+        int loggedInUserId = (int) session.getAttribute("user_id");
         
         //doGet
         ProjectBean project = new ProjectBean();
@@ -59,7 +67,7 @@ public class dashboardStdServlet extends HttpServlet {
                            "WHERE p.student_id = ?";
             
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, tempUserId);
+            stmt.setInt(1, loggedInUserId);
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()) {

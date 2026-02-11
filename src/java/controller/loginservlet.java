@@ -86,8 +86,8 @@ public class loginservlet extends HttpServlet {
     String role = rs.getString("ROLE");
     
     // 2. Set session attributes for your JSP headers
-    session.setAttribute("userName", rs.getString("FULL_NAME")); 
-    session.setAttribute("userID", rs.getString("USER_ID"));
+    session.setAttribute("full_name", rs.getString("FULL_NAME")); 
+    session.setAttribute("user_id", rs.getInt("USER_ID"));
     session.setAttribute("role", role);
 
     // 3. ROLE-BASED REDIRECTION LOGIC
