@@ -210,7 +210,7 @@
                 <span class="id">${userID}</span>
             </div>
         </div>
-        <a href="logout.html" style="text-decoration: none;">
+        <a href="logout.jsp" style="text-decoration: none;">
             <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </a>
     </header>
@@ -269,7 +269,7 @@
             <div class="footer-links">
                 <a href="#">Privacy</a>
                 <a href="#">Terms</a>
-                <a href="#">Support</a>
+                <a href="# ">Support</a>
             </div>
         </div>
     </footer>
