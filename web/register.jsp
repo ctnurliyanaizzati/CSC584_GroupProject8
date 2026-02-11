@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | FYP Supervision</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-title">FYP Supervision</span>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="card">
+      <h1 class="card-title">Create your account</h1>
+      <p class="card-subtitle">Register to track milestones, submissions, and supervisor feedback.</p>
+
+      <form id="registerForm" class="form-grid" action="RegisterServlet" method="post">
+        <div class="form-field">
+          <label for="role">Role</label>
+          <select id="role" name="role" class="input-bar" required>
+            <option value="student">Student</option>
+            <option value="supervisor">Supervisor</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" class="input-bar" placeholder="FULL NAME" required />
+        </div>
+
+        <div class="form-field">
+          <label for="userId">ID</label>
+          <input type="text" id="userId" name="userId" class="input-bar" placeholder="Student / Supervisor ID" required />
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="input-bar" placeholder="ID@uitm.edu.my" required />
+        </div>
+
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="input-bar" placeholder="Min 8 characters" minlength="8" required />
+        </div>
+
+        <div class="form-field">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" class="input-bar" placeholder="Min 8 characters" minlength="8" required />
+        </div>
+
+        <div class="form-field">
+          <label for="program">Program</label>
+          <input type="text" id="program" name="program" class="input-bar" placeholder="CS240 / CDCS240" required />
+        </div>
+
+        <div class="form-field">
+          <label for="session">Session</label>
+          <input type="text" id="session" name="session" class="input-bar" placeholder="20264" required />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Register</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+    </div>
+    <p class="copyright">© 2025 FYP Supervision. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
