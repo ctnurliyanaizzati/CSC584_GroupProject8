@@ -206,8 +206,8 @@
                 <i class="fas fa-user-circle"></i>
             </div>
             <div class="user-identity">
-                <span class="name">${userName}</span>
-                <span class="id">${userID}</span>
+            <span class="name">${full_name}</span>
+            <span class="id">${user_id}</span>
             </div>
         </div>
         <a href="logout.jsp" style="text-decoration: none;">
