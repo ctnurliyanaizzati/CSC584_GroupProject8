@@ -96,7 +96,7 @@ public class loginservlet extends HttpServlet {
         response.sendRedirect("dashboardStdServlet");
     } else if ("SUPERVISOR".equalsIgnoreCase(role)) {
         // Sends Supervisor to their specific dashboard
-        response.sendRedirect("dashboard-sv.jsp");
+        response.sendRedirect("dashboardSvServlet");
     } else {
         // Optional: Handle unknown roles
         request.setAttribute("error", "Access Denied: Unknown Role");
