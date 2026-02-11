@@ -41,7 +41,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         }
 
         // Statistics Queries
-        String sqlStudents = "SELECT COUNT(*) FROM USERS WHERE ROLE = 'STUDENT'"; 
+        String sqlStudents = "SELECT COUNT(*) FROM USERS WHERE UPPER(ROLE) = 'STUDENT'";
         String sqlOngoing = "SELECT COUNT(*) FROM PROJECT WHERE PROJECT_STATUS = 'On-going'";
         String sqlCompleted = "SELECT COUNT(*) FROM PROJECT WHERE PROJECT_STATUS = 'Completed'";
 

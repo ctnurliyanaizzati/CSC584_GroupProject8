@@ -264,8 +264,8 @@
         <div class="user-profile">
             <div class="avatar-icon"><i class="fas fa-user-circle"></i></div>
              <div class="user-identity">
-                <span class="name">${userName}</span>
-                <span class="id">${userID}</span>
+            <span class="name">${full_name}</span>
+            <span class="id">${user_id}</span>
             </div>
         </div>
         <a href="logout.html" style="text-decoration: none;">
@@ -274,9 +274,11 @@
     </header>
 
     <div class="dashboard-container">
-        <nav class="breadcrumb">
-            <a href="dashboard-sv.html">Dashboard</a> / <span style="color:#1e293b; font-weight:600;">Project List</span>
+       <nav class="breadcrumb">
+            <a href="dashboardSvServlet">Dashboard</a> / 
+            <span class="current">Project List</span>
         </nav>
+      
 
         <div class="summary-section">
             <h1>Project List</h1>

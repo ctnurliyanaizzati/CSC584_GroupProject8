@@ -276,8 +276,8 @@
                 <i class="fas fa-user-circle"></i>
             </div>
              <div class="user-identity">
-                <span class="name">${userName}</span>
-                <span class="id">${userID}</span>
+            <span class="name">${full_name}</span>
+            <span class="id">${user_id}</span>
             </div>
         </div>
         <a href="logout.html" style="text-decoration: none;">
@@ -287,8 +287,8 @@
 
     <div class="dashboard-container">
         <nav class="breadcrumb">
-            <a href="dashboard-sv.html">Dashboard</a> / 
-            <a href="projectlist.html">Project List</a> / 
+            <a href="dashboardSvServlet">Dashboard</a> / 
+            <a href="ProjectListServlet">Project List</a> / 
             <span class="current">Project Details</span>
         </nav>
 
@@ -318,13 +318,15 @@
                 </button>
 
                 <form action="UpdateProjectStatusServlet" method="POST" style="display:inline;" 
-                      onsubmit="return confirm('Are you sure you want to mark this project as completed?');">
-                    <input type="hidden" name="projectId" value="${project.project_id}">
-                    <input type="hidden" name="newStatus" value="Completed">
-                    <button type="submit" class="btn-success">
-                        <i class="fas fa-check-double"></i> Mark Project as Completed
-                    </button>
-                </form>
+                        onsubmit="return confirm('Are you sure you want to mark this project as completed?');">
+
+                      <input type="hidden" name="projectId" value="${project.project_id}">
+                      <input type="hidden" name="newStatus" value="Completed">
+
+                      <button type="submit" class="btn-success">
+                          <i class="fas fa-check-double"></i> Mark Project as Completed
+                      </button>
+                  </form>
             </div>
         </div> <%-- <--- ADDED THIS MISSING CLOSING DIV --%>
 
