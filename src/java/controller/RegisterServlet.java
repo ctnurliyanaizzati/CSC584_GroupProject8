@@ -1,3 +1,5 @@
+package controller;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RegisterServlet")
+@WebServlet(name = "RegisterServlet", urlPatterns = {"/RegisterServlet"})
 public class RegisterServlet extends HttpServlet {
 
     private static final String JDBC_URL = "jdbc:derby://localhost:1527/FYPTracker";
@@ -32,7 +34,7 @@ public class RegisterServlet extends HttpServlet {
         PreparedStatement ps = null;
 
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            //Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 
             String sql = "INSERT INTO USERS (user_id, email, password, full_name, role, program_code, sessions) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -49,9 +51,9 @@ public class RegisterServlet extends HttpServlet {
             int result = ps.executeUpdate();
 
             if (result > 0) {
-                response.sendRedirect("login.html?success=1");
+                response.sendRedirect("login.jsp");
             } else {
-                response.sendRedirect("register.html?error=failed");
+                response.sendRedirect("register.jsp?error=failed");
             }
 
         } catch (NumberFormatException e) {

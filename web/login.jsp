@@ -73,7 +73,7 @@
         </div>
 
         <div class="footer">
-            <p>Don't have an account? <a href="register.html">Register</a></p>
+            <p>Don't have an account? <a href="register.jsp">Register</a></p>
         </div>
     </div>
 
