@@ -61,7 +61,7 @@
         <div id="id2x5" class="brand-group header-spacer">
           <img src="https://app.grapesjs.com/api/assets/random-image?query=%22student%20portrait%22&amp;w=80&amp;h=80" alt="Student photo" class="avatar-img" id="ifs3pk" />
           <span class="welcome-text" id="welcomeText">
-               <span id="studentName"><%= full_name %></span><br>
+               <span id="studentName"><%=full_name %></span><br>
                 <span class="student-id" id="studentId"><%= user_id %></span>
             </span>
         </div>
