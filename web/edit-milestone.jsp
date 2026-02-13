@@ -33,18 +33,17 @@
 <p>
 <strong><%= supervisorName %></strong> (Supervisor)
 </p>
+<!--<form action="UpdateMilestoneServlet" method="post"> 
 
-<form action="UpdateMilestoneServlet" method="post">
-
-    <!-- Hidden ID -->
+    <!-- Hidden ID 
     <input type="hidden" name="milestoneId" 
            value="<%= milestoneId != null ? milestoneId : "" %>">
 
-    <label>Milestone:</label><br>
+    <label>Task</label><br>
     <input type="text" name="milestoneName"
            value="<%= milestoneName != null ? milestoneName : "" %>" required><br><br>
 
-    <label>Task:</label><br>
+    <label>Description:</label><br>
     <textarea name="task" required>
 <%= task != null ? task : "" %>
     </textarea><br><br>
@@ -55,11 +54,29 @@
 
     <label>End Date:</label><br>
     <input type="date" name="endDate"
-           value="<%= endDate != null ? endDate : "" %>" required><br><br>
+        <!--   value="<%= endDate != null ? endDate : "" %>" required><br><br> 
 
     <button type="submit">Update</button>
-    <a href="MilestoneServlet">Close</a>
+    <a href="MilestoneServlet">Close</a>-->
 
+
+<form action="<%= request.getContextPath() %>/UpdateMilestoneServlet" method="post">
+    <input type="hidden" name="milestoneId" value="<%= milestoneId %>">
+
+    <label>Task</label>
+    <input type="text" name="milestoneName" value="<%= milestoneName %>" required><br>
+
+    <label>Description</label>
+    <textarea name="task" required><%= task %></textarea><br>
+
+    <label>Start Date</label>
+    <input type="date" name="startDate" value="<%= startDate %>" required><br>
+
+    <label>End Date</label>
+    <input type="date" name="endDate" value="<%= endDate %>" required><br>
+
+    <button type="submit">Update</button>
+    <a href="view-milestone.jsp">Close</a>
 </form>
 
 </body>

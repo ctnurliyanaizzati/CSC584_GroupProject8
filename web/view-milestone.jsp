@@ -253,7 +253,7 @@
             <button class="btn-submit">Update</button>
         </a>
 
-        <a href="milestone.jsp">
+        <a href="project.jsp">
             <button class="btn-close">Close</button>
         </a>
     </div>
