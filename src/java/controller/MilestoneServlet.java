@@ -28,7 +28,7 @@ public class MilestoneServlet extends HttpServlet {
         
         List<MilestoneStdBean> milestoneList = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT MILESTONE_ID, MILESTONE_NAME, TASK, START_DATE, END_DATE, STATUS FROM APP.MILESTONE";
+            String sql = "SELECT * FROM APP.MILESTONE";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
