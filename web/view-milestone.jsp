@@ -249,11 +249,11 @@
     </div>
 
    <div class="btn-group">
-        <a href="edit-milestone.html">
+        <a href="edit-milestone.jsp">
             <button class="btn-submit">Update</button>
         </a>
 
-        <a href="milestone.html">
+        <a href="milestone.jsp">
             <button class="btn-close">Close</button>
         </a>
     </div>
