@@ -12,6 +12,10 @@
         <servlet-name>SubmissionStdServlet</servlet-name>
         <servlet-class>controller.SubmissionStdServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewMilestoneSvServlet</servlet-name>
+        <servlet-class>controller.ViewMilestoneSvServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -24,7 +28,10 @@
         <servlet-name>SubmissionStdServlet</servlet-name>
         <url-pattern>/SubmissionStdServlet</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>ViewMilestoneSvServlet</servlet-name>
+        <url-pattern>/ViewMilestoneSvServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
