@@ -6,6 +6,21 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.UserBean"%>
+<%@page import="model.MilestoneStdBean"%>
+
+<%     
+    //get feedback data from servlet
+    MilestoneStdBean feedback = (MilestoneStdBean) request.getAttribute("feedbackSv");
+    
+    //if feedback null
+    if (feedback == null){
+        feedback = new MilestoneStdBean();
+    }
+    
+    String feedbackSv = (feedback.getFeedback_text() != null)
+                         ? feedback.getFeedback_text()
+                         : "No feedback provided yet by supervisor for this task.";
+%>
 <html lang="en">
 
     <head>
@@ -50,7 +65,7 @@
                 </span>
             </div>
             <nav id="i97rf" class="header-actions">
-                <button type="button" id="i3ep7" aria-label="Logout" class="header-button">
+                <button type="button" id="i3ep7" class="header-button" onclick="window.location.href='logout.jsp'">
                     <img src="https://api.iconify.design/lucide-log-out.svg?color=white" alt="" aria-hidden="true"/>
                     Logout
                 </button>
@@ -77,17 +92,23 @@
             <span class="indicator"></span>
             <h3>Supervisor Feedback</h3>
             
+            <p style="margin-top: 10px; font-weight: 600; color: #666;">
+                    Task <%= (feedback.getTitle() != null) ? feedback.getTitle() : "N/A" %>
+                </p>
             
-<p class="feedback-intro">
-    Overall progress is on track. Please address the following items before the next review:
-    <br>- Prototype UI: improve **error handling** and **loading states**. Submit revised documents 48 hours before meeting.
-</p>
+            <p class="feedback-intro">
+                <%= feedbackSv %>
+            </p>
           </div>
-          <button class="close-btn" aria-label="Close"><i class="fa fa-times"></i></button>
+          <button class="close-btn" onclick="window.location.href='MilestoneStdServlet'" aria-label="Close">
+                <i class="fa fa-times">X</i>
+            </button>
         </div>
 
         <hr class="card-divider">
-
+        <div class="card-body">
+             <p><small>Note: Attachments are only available if uploaded by supervisor.</small></p>
+        </div>
         <div class="card-body">
           <button class="btn primary">
             <i class="fa fa-paperclip"></i>

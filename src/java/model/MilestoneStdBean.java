@@ -18,6 +18,7 @@ public class MilestoneStdBean {
     private String start_date;
     private String end_date;
     private String status;
+    private String feedback_text;
     
     public MilestoneStdBean(){
         
@@ -69,6 +70,14 @@ public class MilestoneStdBean {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFeedback_text() {
+        return feedback_text;
+    }
+
+    public void setFeedback_text(String feedback_text) {
+        this.feedback_text = feedback_text;
     }
     
     

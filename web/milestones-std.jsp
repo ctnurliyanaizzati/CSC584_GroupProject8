@@ -206,7 +206,7 @@
             </a>
         </td>
         <td class="cell-feedback">
-            <a href="feedback-sv.jsp?milestone_id=<%= ms.getMilestone_id() %>" style="text-decoration: none;">
+            <a href="feedbackSvServlet?milestone_id=<%= ms.getMilestone_id() %>" style="text-decoration: none;">
             <button type="button" class="feedback-button">
                 <img src="https://api.iconify.design/lucide-eye.svg?color=white" alt="" aria-hidden="true" class="icon-eye" />
                 <span>View Feedback</span>

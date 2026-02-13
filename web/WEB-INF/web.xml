@@ -24,6 +24,7 @@
         <servlet-name>SubmissionStdServlet</servlet-name>
         <url-pattern>/SubmissionStdServlet</url-pattern>
     </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30
