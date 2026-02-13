@@ -355,7 +355,7 @@
                         <td>2025-01-05</td>
                         <td><span class="status-pill open">Open</span></td>
                         <td class="action-links">
-                            <a href="ViewMilestoneServlet?milestone_id=1"><i class="far fa-eye"></i> View</a>
+                            <a href="view-milestone.jsp"><i class="far fa-eye"></i> View</a>
                             <a href="edit-milestone.html"><i class="far fa-edit"></i> Edit</a>
                             <a href="#" class="text-danger" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt"></i> Delete</a>
                         </td>
