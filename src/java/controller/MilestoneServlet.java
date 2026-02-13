@@ -23,12 +23,15 @@ import javax.servlet.http.*;
 public class MilestoneServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
         List<MilestoneStdBean> milestoneList = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT MILESTONE_ID, MILESTONE_NAME, TASK, START_DATE, END_DATE, STATUS FROM APP.MILESTONE";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
                 MilestoneStdBean ms = new MilestoneStdBean();
                 ms.setMilestone_id(rs.getInt("MILESTONE_ID"));
@@ -44,6 +47,7 @@ public class MilestoneServlet extends HttpServlet {
         } // Hantar list ke JSP request.setAttribute("milestoneList", milestoneList);
             
         // Forward ke JSP 
+        request.setAttribute("milestoneList", milestoneList);
         RequestDispatcher rd = request.getRequestDispatcher("milestones-std.jsp");
         rd.forward(request, response);
     } 
