@@ -85,43 +85,59 @@
           </nav>
     
         
-<section class="content-container">
-      <div class="card">
-        <div class="card-header">
-          <div class="title">
-            <span class="indicator"></span>
-            <h3>Supervisor Feedback</h3>
-            
-            <p style="margin-top: 10px; font-weight: 600; color: #666;">
-                    Task <%= (feedback.getTitle() != null) ? feedback.getTitle() : "N/A" %>
-                </p>
-            
-            <p class="feedback-intro">
-                <%= feedbackSv %>
-            </p>
-          </div>
-          <button class="close-btn" onclick="window.location.href='MilestoneStdServlet'" aria-label="Close">
-                <i class="fa fa-times">X</i>
+<section class="content-container" style="display: flex; justify-content: center; padding-top: 50px;">
+    <div class="card" style="width: 100%; max-width: 650px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; padding: 30px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="indicator" style="height: 22px; width: 4px; background: #2563eb; border-radius: 2px;"></span>
+                    <h3 style="margin: 0; font-size: 1.5rem; color: #1e3a8a; font-family: 'Poppins', sans-serif;">Supervisor Feedback</h3>
+                </div>
+                <div style="margin-left: 14px; display: flex; align-items: center; gap: 5px;">
+                    <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 500; text-transform: uppercase;">Task:</span>
+                    <span style="color: #475569; font-size: 1.1rem; font-weight: 600;"><%= (feedback.getTitle() != null) ? feedback.getTitle() : "N/A" %></span>
+                </div>
+            </div>
+
+            <button class="close-btn" onclick="window.location.href='MilestoneStdServlet'" 
+                    style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.2s;">
+                &times;
             </button>
         </div>
 
-        <hr class="card-divider">
-        <div class="card-body">
-             <p><small>Note: Attachments are only available if uploaded by supervisor.</small></p>
+        <div style="background: #f8fafc; border-radius: 12px; padding: 25px; border: 1px solid #f1f5f9; margin-bottom: 25px; text-align: center;">
+            <p style="color: #334155; font-size: 1.15rem; line-height: 1.6; font-style: italic; margin: 0;">
+                "<%= (feedbackSv != null) ? feedbackSv : "No feedback text provided." %>"
+            </p>
         </div>
-        <div class="card-body">
-          <button class="btn primary">
-            <i class="fa fa-paperclip"></i>
-            <span>View Attachment</span>
-          </button>
-          <button class="btn secondary">
-            <i class="fa fa-download"></i>
-            <span>Download Attachment</span>
-          </button>
-        </div>
-      </div>
-    </section>
 
+        <div style="border-top: 1px solid #f1f5f9; padding-top: 20px; text-align: center;">
+            <p style="margin-bottom: 15px; font-size: 0.8rem; color: #94a3b8;">Note: Attachments are only available if uploaded by supervisor.</p>
+            
+            <div style="display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <% 
+                    String filePath = feedback.getFeedback_file_path(); 
+                    if (filePath != null && !filePath.isEmpty()) { 
+                %>
+                    <button type="button" class="btn primary" onclick="alert('File Path: <%= filePath %>')" 
+                            style="background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.15);">
+                        <i class="fa fa-paperclip"></i> View Attachment
+                    </button>
+                    
+                    <span style="font-size: 0.85rem; color: #2563eb; font-weight: 500; background: #eff6ff; padding: 10px 15px; border-radius: 8px; border: 1px dashed #bfdbfe;">
+                        <strong>File Path:</strong> <%= filePath %>
+                    </span>
+                <% } else { %>
+                    <button type="button" disabled style="background: #f8fafc; color: #cbd5e1; border: 1px solid #f1f5f9; padding: 12px 24px; border-radius: 8px; cursor: not-allowed;">
+                        No Attachment
+                    </button>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+            
     </main>
     <footer class="footer">
       <div class="footer-container">

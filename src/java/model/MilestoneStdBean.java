@@ -18,6 +18,7 @@ public class MilestoneStdBean {
     private String start_date;
     private String end_date;
     private String status;
+    private String feedback_file_path;
     private String feedback_text;
     private String student_name;
     private String submission_file_path;
@@ -75,6 +76,16 @@ public class MilestoneStdBean {
         this.status = status;
     }
 
+    public String getFeedback_file_path() {
+        return feedback_file_path;
+    }
+
+    public void setFeedback_file_path(String feedback_file_path) {
+        this.feedback_file_path = feedback_file_path;
+    }
+
+    
+    
     public String getFeedback_text() {
         return feedback_text;
     }

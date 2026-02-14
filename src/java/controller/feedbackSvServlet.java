@@ -70,10 +70,10 @@ public class feedbackSvServlet extends HttpServlet {
         // query to get data from milestone and feedback table
          try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
-            String query = "SELECT m.title, f.feedback_text " + 
-                           "FROM MILESTONE m " +
-                           "LEFT JOIN FEEDBACK f ON m.milestone_id = f.submission_id " + 
-                           "WHERE m.milestone_id = ?";
+            String query = "SELECT m.title, f.feedback_text, f.feedback_file_path " + 
+                   "FROM MILESTONE m " +
+                   "LEFT JOIN FEEDBACK f ON m.milestone_id = f.submission_id " + 
+                   "WHERE m.milestone_id = ?";
             
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, milestoneId);
@@ -83,6 +83,7 @@ public class feedbackSvServlet extends HttpServlet {
                 milestone.setMilestone_id(milestoneId);
                 milestone.setTitle(rs.getString("title"));
                 milestone.setFeedback_text(rs.getString("feedback_text"));
+                milestone.setFeedback_file_path(rs.getString("feedback_file_path"));
             } 
             conn.close();
     } catch (Exception e) {

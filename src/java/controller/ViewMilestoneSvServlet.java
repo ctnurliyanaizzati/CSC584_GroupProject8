@@ -12,12 +12,19 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.MilestoneStdBean;
 import model.UserBean;
+
+@MultipartConfig( location = "C:/FYPTrackerFile",
+                  fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+                  maxFileSize = 1024 * 1024 * 10,      // 10MB
+                  maxRequestSize = 1024 * 1024 * 50)   // 50MB
+/**
 
 /**
  *
@@ -130,25 +137,59 @@ public class ViewMilestoneSvServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
+       String mIdStr = request.getParameter("milestone_id");
+       int submission_id = Integer.parseInt(mIdStr);
+       String feedbackSv = request.getParameter("feedback_text");
+       
+       javax.servlet.http.Part filePart = request.getPart("feedback_file");
+       String filePathSv = "";
+        
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+                    
+            /*String folderPath = "C:/FYPTrackerFile";
+            java.io.File fileSaveDir = new java.io.File(folderPath);
+            
+            if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+            
+            filePathSv = folderPath + "/" + fileName;*/
+            
+            filePart.write(fileName);
+            filePathSv = "C:/FYPTrackerFile/" + fileName; // Simpan path penuh dalam DB
+        }
+        
         //get SV id from login session
         UserBean currentUser = (UserBean) request.getSession().getAttribute("userData");
-        
         int supervisor_id = (currentUser != null) ? currentUser.getUser_id() : 1001;
-        
-        int submission_id = Integer.parseInt(request.getParameter("milestone_id"));
-        String feedbackSv = request.getParameter("feedback_text");
-        String filePathSv = ""; //let empty first
         
         try{
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
-            String query = "INSERT INTO FEEDBACK (SUBMISSION_ID, SUPERVISOR_ID, FEEDBACK_FILE_PATH, FEEDBACK_TEXT) VALUES (?, ?, ?, ?)";
-                        
-            PreparedStatement stmt = conn.prepareStatement(query);
+            
+            // DELETE old feedback if exist to avoid duplicate
+            String deleteQuery = "DELETE FROM FEEDBACK WHERE SUBMISSION_ID = ?";
+            PreparedStatement delStmt = conn.prepareStatement(deleteQuery);
+            delStmt.setInt(1, submission_id);
+            delStmt.executeUpdate();
+            
+            // INSERT feedback
+            String insertSQL = "INSERT INTO FEEDBACK (SUBMISSION_ID, SUPERVISOR_ID, FEEDBACK_FILE_PATH, FEEDBACK_TEXT) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(insertSQL);
             stmt.setInt(1, submission_id);
-            stmt.setInt(2, supervisor_id); //user id from session
+            stmt.setInt(2, supervisor_id);
             stmt.setString(3, filePathSv);
             stmt.setString(4, feedbackSv);
             stmt.executeUpdate();
+            
+            /*String query = "INSERT INTO FEEDBACK (SUBMISSION_ID, SUPERVISOR_ID, FEEDBACK_FILE_PATH, FEEDBACK_TEXT) VALUES (?, ?, ?, ?)";
+                        
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, milestone_id);
+            stmt.setInt(2, supervisor_id); //user id from session
+            stmt.setString(3, filePathSv);
+            stmt.setString(4, feedbackSv);
+            stmt.executeUpdate();*/
         
             conn.close();
         } catch (Exception e) {

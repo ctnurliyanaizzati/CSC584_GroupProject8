@@ -239,23 +239,21 @@
         <div class="info-item"><b>Student Remarks:</b> <%= milestone.getSubmission_remarks() %></div>
     </div>
 
-    <form action="ViewMilestoneServlet" method="POST">
+    <form action="ViewMilestoneSvServlet" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="milestone_id" value="<%= milestone.getMilestone_id() %>">
     
         <div class="section">
             <b>Attachment</b>
         <div class="attachment-buttons">
-            <% if (milestone.getSubmission_file_path() != null) { %>
-                <button type="button">View File</button>
-                <p style="font-size: 11px; color: blue;">
-                    Attachment: <%= milestone.getSubmission_file_path() %>
-                </p>
-            <% } else { %>
-                <button type="button" disabled style="background-color: #ccc;">No File</button>
-                <p style="font-size: 11px; color: red;">No file submitted.</p>
-            <% } %> 
-            
-            <button type="button">Download</button>
+                <% if (milestone.getSubmission_file_path() != null && !milestone.getSubmission_file_path().isEmpty()) { %>
+                    <button type="button" onclick="alert('File Path: <%= milestone.getSubmission_file_path() %>')">View Path</button>
+                    <p style="font-size: 11px; color: blue; margin-top:5px;">
+                        File Location: <%= milestone.getSubmission_file_path() %>
+                    </p>
+                <% } else { %>
+                    <button type="button" disabled style="background-color: #ccc;">No File</button>
+                    <p style="font-size: 11px; color: red; margin-top:5px;">No file submitted by student.</p>
+                <% } %> 
         </div>
     </div>
 
@@ -271,7 +269,7 @@
 
    <div class="btn-group">
         <button type="submit" class="btn-submit">Save</button>
-            <button type="button" class="btn-close" onclick="window.location.href='projectlist.jsp'">Close</button>
+        <button type="button" class="btn-close" onclick="window.location.href='projectlist.jsp'">Close</button>
     </div>
     </form>
     
@@ -289,6 +287,17 @@
                 <a href="#">Support</a>
             </div>
  </footer>
+
+<%
+    String status = request.getParameter("status");
+    if ("success".equals(status)) {
+%>
+    <script>
+        alert("Feedback successfully saved!");
+    </script>
+<%
+    }
+%>
 </body>
 </html>
 

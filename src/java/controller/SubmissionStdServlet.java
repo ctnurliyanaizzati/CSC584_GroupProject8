@@ -46,7 +46,21 @@ public class SubmissionStdServlet extends HttpServlet {
         String milestoneId = request.getParameter("milestone_id");
         String remarks = request.getParameter("remarks");
         Part filePart = request.getPart("submission_file_path"); 
-        String fileName = (filePart != null) ? filePart.getSubmittedFileName(): "no_file";
+        //String fileName = (filePart != null) ? filePart.getSubmittedFileName(): "no_file";
+        
+        String savePath = "C:\\FYPTrackerFile\\StudentSubmission";
+        String fileName = "no_file";
+        String fullFilePath = "";
+        
+        if (filePart != null && filePart.getSize() > 0) {
+            fileName = filePart.getSubmittedFileName();
+            fullFilePath = savePath + "\\" + fileName;
+        
+        // 3. Simpan fail ke folder fizikal
+        filePart.write(fullFilePath);
+    }
+        
+        
                 
         try{
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
@@ -56,7 +70,7 @@ public class SubmissionStdServlet extends HttpServlet {
             //insert into submission
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, Integer.parseInt(milestoneId));
-            stmt.setString(2, fileName);
+            stmt.setString(2, fullFilePath);
             stmt.setString(3, remarks);
             stmt.executeUpdate();
             
