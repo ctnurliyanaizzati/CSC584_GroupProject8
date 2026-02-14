@@ -236,16 +236,25 @@
         <div class="info-item"><b>Start Date:</b><%= milestone.getStart_date() %></div>
         <div class="info-item"><b>End Date:</b><%= milestone.getEnd_date() %></div>
         <div class="info-item"><b>Status:</b> <span class="status"><%= milestone.getStatus() %></span></div>
-        <div class="info-item"><b>Student Remarks:</b> Methodology final version and updated</div>
+        <div class="info-item"><b>Student Remarks:</b> <%= milestone.getSubmission_remarks() %></div>
     </div>
 
-    <form action="viewMilestoneServlet" method="POST">
+    <form action="ViewMilestoneServlet" method="POST">
         <input type="hidden" name="milestone_id" value="<%= milestone.getMilestone_id() %>">
     
         <div class="section">
-        <b>Attachment</b>
+            <b>Attachment</b>
         <div class="attachment-buttons">
-            <button type="button">View</button> 
+            <% if (milestone.getSubmission_file_path() != null) { %>
+                <button type="button">View File</button>
+                <p style="font-size: 11px; color: blue;">
+                    Attachment: <%= milestone.getSubmission_file_path() %>
+                </p>
+            <% } else { %>
+                <button type="button" disabled style="background-color: #ccc;">No File</button>
+                <p style="font-size: 11px; color: red;">No file submitted.</p>
+            <% } %> 
+            
             <button type="button">Download</button>
         </div>
     </div>

@@ -20,6 +20,8 @@ public class MilestoneStdBean {
     private String status;
     private String feedback_text;
     private String student_name;
+    private String submission_file_path;
+    private String submission_remarks;
     
     public MilestoneStdBean(){
         
@@ -87,6 +89,22 @@ public class MilestoneStdBean {
 
     public void setStudent_name(String student_name) {
         this.student_name = student_name;
+    }
+
+    public String getSubmission_file_path() {
+        return submission_file_path;
+    }
+
+    public void setSubmission_file_path(String submission_file_path) {
+        this.submission_file_path = submission_file_path;
+    }
+
+    public String getSubmission_remarks() {
+        return submission_remarks;
+    }
+
+    public void setSubmission_remarks(String submission_remarks) {
+        this.submission_remarks = submission_remarks;
     }
     
     

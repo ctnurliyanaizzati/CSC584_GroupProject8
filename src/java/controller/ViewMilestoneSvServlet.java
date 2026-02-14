@@ -66,28 +66,45 @@ public class ViewMilestoneSvServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
-        int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
-        MilestoneStdBean milestone = new MilestoneStdBean();
+        // get ID from URL (?milestone_id=1) testing
+        String mIdParam = request.getParameter("milestone_id");
         
+        if (mIdParam != null) {
+        int mId = Integer.parseInt(mIdParam);
+        
+        //int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
+        MilestoneStdBean milestone = new MilestoneStdBean();
+               
         try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
-            String query = "SELECT m.*, u.full_name AS std_name, f.feedback_text " +
-                           "FROM MILESTONE m " +
-                           "JOIN USERS u ON m.student_id = u.user_id " + // join to get std name
-                           "LEFT JOIN FEEDBACK f ON m.milestone_id = f.submission_id " +
-                           "WHERE m.milestone_id = ?";
+            String query = "SELECT M.*, U.FULL_NAME AS STD_NAME, S.SUBMISSION_REMARKS, S.SUBMISSION_FILE_PATH, F.FEEDBACK_TEXT " +
+               "FROM MILESTONE M " +
+               "JOIN PROJECT P ON M.PROJECT_ID = P.PROJECT_ID " +
+               "JOIN USERS U ON P.STUDENT_ID = U.USER_ID " +
+               "LEFT JOIN SUBMISSION S ON M.MILESTONE_ID = S.MILESTONE_ID " + // Ambil remarks student
+               "LEFT JOIN FEEDBACK F ON S.SUBMISSION_ID = f.SUBMISSION_ID " + // Ambil feedback SV
+               "WHERE M.MILESTONE_ID = ?";
             
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, milestoneId);
+            //stmt.setInt(1, milestoneId);
+            stmt.setInt(1, mId);
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()) {
                 
-                milestone.setMilestone_id(milestoneId);
-                milestone.setTitle(rs.getString("title"));
-                milestone.setTask(rs.getString("task"));
-                milestone.setTask(rs.getString("std_name"));
-                milestone.setFeedback_text(rs.getString("feedback_text"));;
+                //milestone.setMilestone_id(milestoneId);
+                milestone.setMilestone_id(mId);
+                milestone.setTitle(rs.getString("TITLE"));
+                milestone.setTask(rs.getString("TASK"));
+                milestone.setStudent_name(rs.getString("STD_NAME"));
+                milestone.setStart_date(rs.getString("START_DATE"));
+                milestone.setEnd_date(rs.getString("END_DATE"));
+                milestone.setStatus(rs.getString("STATUS"));
+                milestone.setSubmission_remarks(rs.getString("SUBMISSION_REMARKS"));
+                milestone.setSubmission_file_path(rs.getString("SUBMISSION_FILE_PATH"));
+                
+                milestone.setFeedback_text(rs.getString("FEEDBACK_TEXT"));
+                
             }
             conn.close();
         } catch (Exception e) {
@@ -97,6 +114,7 @@ public class ViewMilestoneSvServlet extends HttpServlet {
         request.setAttribute("data", milestone);
         request.getRequestDispatcher("view-milestone.jsp").forward(request, response);
 
+        }
     }
 
     /**
