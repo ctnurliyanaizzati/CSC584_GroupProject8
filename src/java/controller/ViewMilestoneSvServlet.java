@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.MilestoneStdBean;
+import model.UserBean;
 
 /**
  *
@@ -70,8 +71,9 @@ public class ViewMilestoneSvServlet extends HttpServlet {
         
         try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
-            String query = "SELECT m.title, m.task, m.statis, f.feedback_text " +
+            String query = "SELECT m.*, u.full_name AS std_name, f.feedback_text " +
                            "FROM MILESTONE m " +
+                           "JOIN USERS u ON m.student_id = u.user_id " + // join to get std name
                            "LEFT JOIN FEEDBACK f ON m.milestone_id = f.submission_id " +
                            "WHERE m.milestone_id = ?";
             
@@ -84,6 +86,7 @@ public class ViewMilestoneSvServlet extends HttpServlet {
                 milestone.setMilestone_id(milestoneId);
                 milestone.setTitle(rs.getString("title"));
                 milestone.setTask(rs.getString("task"));
+                milestone.setTask(rs.getString("std_name"));
                 milestone.setFeedback_text(rs.getString("feedback_text"));;
             }
             conn.close();
@@ -109,16 +112,24 @@ public class ViewMilestoneSvServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
-        int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
-        String feedback = request.getParameter("feedback_text");
+        //get SV id from login session
+        UserBean currentUser = (UserBean) request.getSession().getAttribute("userData");
+        
+        int supervisor_id = (currentUser != null) ? currentUser.getUser_id() : 1001;
+        
+        int submission_id = Integer.parseInt(request.getParameter("milestone_id"));
+        String feedbackSv = request.getParameter("feedback_text");
+        String filePathSv = ""; //let empty first
         
         try{
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
             String query = "INSERT INTO FEEDBACK (SUBMISSION_ID, SUPERVISOR_ID, FEEDBACK_FILE_PATH, FEEDBACK_TEXT) VALUES (?, ?, ?, ?)";
                         
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, milestoneId);
-            stmt.setString(2, feedback);
+            stmt.setInt(1, submission_id);
+            stmt.setInt(2, supervisor_id); //user id from session
+            stmt.setString(3, filePathSv);
+            stmt.setString(4, feedbackSv);
             stmt.executeUpdate();
         
             conn.close();
@@ -126,7 +137,7 @@ public class ViewMilestoneSvServlet extends HttpServlet {
             e.printStackTrace();
         }
         
-        response.sendRedirect("viewMilestoneSvServlet?milestone_id=" + milestoneId + "&status=success");
+        response.sendRedirect("ViewMilestoneSvServlet?milestone_id=" + submission_id + "&status=success");
     }
 
     /**

@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.MilestoneStdBean"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,51 +215,62 @@
     <button class="logout">Logout</button>
 </div>
  <div class="breadcrumb">
-           <a href="dashboard-sv.html">Dashboard</a> / <a href="projectlist.html"><strong> Project List</strong></a>
+           <a href="dashboard-sv.jsp">Dashboard</a> / <a href="projectlist.jsp"><strong> Project List</strong></a>
     </div>
 <!-- CONTENT -->
+
+<%
+    //get data send by ViewMilestoneSvServlet
+    MilestoneStdBean milestone = (MilestoneStdBean) request.getAttribute("data");
+%>
+
 <div class="container">
     <h2>View Project Milestone</h2>
+    
+<% if (milestone != null) { %>
 
     <div class="info-grid">
-        <div class="info-item"><b>Student Name:</b> HAQUIMI AMDAN</div>
-        <div class="info-item"><b>Project Title:</b> Methodology Design</div>
-        <div class="info-item"><b>Milestone Name:</b> Milestone 1</div>
-        <div class="info-item"><b>Task:</b> Make proposal</div>
-        <div class="info-item"><b>Start Date:</b> 01/02/2025</div>
-        <div class="info-item"><b>End Date:</b> 05/02/2025</div>
-        <div class="info-item"><b>Status:</b> <span class="status">Submitted</span></div>
+        <div class="info-item"><b>Student Name: </b><%= (milestone.getStudent_name() != null) ? milestone.getStudent_name() : "N/A" %></div>
+        <div class="info-item"><b>Task: </b><%= milestone.getTitle() %></div>
+        <div class="info-item"><b>Description: </b><%= milestone.getTask() %></div>
+        <div class="info-item"><b>Start Date:</b><%= milestone.getStart_date() %></div>
+        <div class="info-item"><b>End Date:</b><%= milestone.getEnd_date() %></div>
+        <div class="info-item"><b>Status:</b> <span class="status"><%= milestone.getStatus() %></span></div>
         <div class="info-item"><b>Student Remarks:</b> Methodology final version and updated</div>
     </div>
 
-    <div class="section">
+    <form action="viewMilestoneServlet" method="POST">
+        <input type="hidden" name="milestone_id" value="<%= milestone.getMilestone_id() %>">
+    
+        <div class="section">
         <b>Attachment</b>
         <div class="attachment-buttons">
-            <button>View</button>
-            <button>Download</button>
+            <button type="button">View</button> 
+            <button type="button">Download</button>
         </div>
     </div>
 
     <div class="section">
         <label><b>Supervisor Feedback</b></label>
-        <textarea placeholder="Write feedback here..."></textarea>
+        <textarea name="feedback_text" placeholder="Write feedback here..."><%= (milestone.getFeedback_text() != null) ? milestone.getFeedback_text() : "" %></textarea>
     </div>
 
     <div class="section">
         <label><b>Upload Attachment</b></label><br>
-        <input type="file">
+        <input type="file" name="feedback_file">
     </div>
 
    <div class="btn-group">
-        <a href="edit-milestone.jsp">
-            <button class="btn-submit">Update</button>
-        </a>
-
-        <a href="project.jsp">
-            <button class="btn-close">Close</button>
-        </a>
+        <button type="submit" class="btn-submit">Save</button>
+            <button type="button" class="btn-close" onclick="window.location.href='projectlist.jsp'">Close</button>
     </div>
+    </form>
+    
+<% } else { %>
 
+    <p style="color:red;">No milestone found.</p>
+    
+ <% } %>
 </div>
 <footer class="dashboard-footer">
             <p>&copy; 2025 FYP Supervision. All rights reserved.</p>
