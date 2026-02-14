@@ -346,8 +346,8 @@
                         <th style="width: 180px;">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <%-- Note: Later you will replace this with <c:forEach items="${milestones}" var="m"> --%>
+                <%--               <tbody>
+                    <%-- Note: Later you will replace this with <c:forEach items="${milestones}" var="m"> 
                     <tr>
                         <td>1</td>
                         <td><strong>Milestone 1</strong></td>
@@ -360,7 +360,40 @@
                             <a href="#" class="text-danger" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt"></i> Delete</a>
                         </td>
                     </tr>
-                </tbody>
+                </tbody>--%>
+                    <tbody>
+                        <c:forEach var="m" items="${milestones}" varStatus="loop">
+                            <tr>
+                                <td>${loop.index + 1}</td>
+                                <td><strong>${m.title}</strong></td>
+                                <td>${m.start_date}</td>
+                                <td>${m.end_date}</td>
+                                <td>
+                                    <span class="status-pill ${m.status eq 'Open' ? 'open' : 'completed'}">
+                                        ${m.status}
+                                    </span>
+                                </td>
+                                <td class="action-links">
+                                    <a href="view-milestone.jsp?milestoneId=${m.milestone_id}">
+                                        <i class="far fa-eye"></i> View
+                                    </a>
+                                    <a href="edit-milestone.jsp?milestoneId=${m.milestone_id}">
+                                        <i class="far fa-edit"></i> Edit
+                                    </a>
+                                    <form action="DeleteMilestoneServlet" method="POST" style="display:inline;"
+                                          onsubmit="return confirm('Are you sure you want to delete this milestone?');">
+                                        <input type="hidden" name="milestoneId" value="${m.milestone_id}">
+                                        <input type="hidden" name="projectId" value="${project.project_id}">
+                                        <button type="submit" class="text-danger">
+                                            <i class="far fa-trash-alt"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+
+                    
             </table>
         </div>
     </div>

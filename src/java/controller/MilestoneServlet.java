@@ -26,10 +26,12 @@ public class MilestoneServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        String projectIdStr = request.getParameter("projectId");
         List<MilestoneStdBean> milestoneList = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT * FROM APP.MILESTONE";
+            String sql = "SELECT MILESTONE_ID, TITLE, TASK, START_DATE, END_DATE, STATUS, FEEDBACK_TEXT " + "FROM APP.MILESTONE WHERE PROJECT_ID=?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(projectIdStr));
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
@@ -48,7 +50,6 @@ public class MilestoneServlet extends HttpServlet {
             
         // Forward ke JSP 
         request.setAttribute("milestoneList", milestoneList);
-        RequestDispatcher rd = request.getRequestDispatcher("milestones-std.jsp");
-        rd.forward(request, response);
+        request.getRequestDispatcher("project.jsp").forward(request, response);
     } 
 }
