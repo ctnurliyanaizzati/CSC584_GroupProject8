@@ -283,21 +283,8 @@
         <div class="summary-section">
             <h1>Project List</h1>
             <div class="stats-block">
-                <span><i class="fas fa-users icon-students"></i> Total Students: 2</span>
-                <span><i class="fas fa-briefcase icon-projects"></i> Total Projects: 2</span>
-            </div>
-        </div>
-
-        <div class="toolbar">
-            <div class="filter-group">
-                <label style="font-weight:600; color:#64748b;">Status:</label>
-                <input type="checkbox" checked> All 
-                <input type="checkbox"> On-going 
-                <input type="checkbox"> Completed
-            </div>
-            <div class="search-group">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search projects...">
+                <span><i class="fas fa-users icon-students"></i>Total Students: ${totalStudents}</span>
+                <span><i class="fas fa-briefcase icon-projects"></i>Total Projects: ${totalProjects}</span>
             </div>
         </div>
 
@@ -315,9 +302,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="proj" items="${allProjects}">
+                    <c:forEach var="proj" items="${allProjects}" varStatus="status">
                         <tr>
-                            <td>${proj.project_id}</td>
+                            <td>${status.count}</td>
+
                             <td><strong>${proj.student_name}</strong></td> 
                             <td>${proj.title}</td>
                             <td>${proj.program_code}</td>
@@ -332,7 +320,7 @@
                             </td>
                         </tr>
                     </c:forEach>
-                </tbody>
+                  </tbody>
             </table>
         </div>
     </div>

@@ -41,22 +41,37 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         }
 
         // Statistics Queries
-        String sqlStudents = "SELECT COUNT(*) FROM USERS WHERE UPPER(ROLE) = 'STUDENT'";
-        String sqlOngoing = "SELECT COUNT(*) FROM PROJECT WHERE PROJECT_STATUS = 'On-going'";
-        String sqlCompleted = "SELECT COUNT(*) FROM PROJECT WHERE PROJECT_STATUS = 'Completed'";
+        
+        // 1. Count only students assigned to this supervisor in the APP.PROJECT table
+        String sqlStudents = "SELECT COUNT(DISTINCT STUDENT_ID) FROM APP.PROJECT WHERE SUPERVISOR_ID = ?";
 
-        Statement st = conn.createStatement();
+        // 2. Ensure these columns also match your DB (likely PROJECT_STATUS and SUPERVISOR_ID)
+        String sqlOngoing = "SELECT COUNT(*) FROM APP.PROJECT WHERE PROJECT_STATUS = 'On-going' AND SUPERVISOR_ID = ?";
+        String sqlCompleted = "SELECT COUNT(*) FROM APP.PROJECT WHERE PROJECT_STATUS = 'Completed' AND SUPERVISOR_ID = ?";
+        
+        // --- START OF PREPAREDSTATEMENT IMPLEMENTATION ---
 
-        ResultSet rs1 = st.executeQuery(sqlStudents);
+        // 1. Get total students for this specific supervisor
+        PreparedStatement ps1 = conn.prepareStatement(sqlStudents);
+        ps1.setInt(1, loggedInUserId);
+        ResultSet rs1 = ps1.executeQuery();
         if (rs1.next()) totalStudents = rs1.getInt(1);
 
-        ResultSet rs2 = st.executeQuery(sqlOngoing);
+        // 2. Get ongoing projects for this specific supervisor
+        PreparedStatement ps2 = conn.prepareStatement(sqlOngoing);
+        ps2.setInt(1, loggedInUserId);
+        ResultSet rs2 = ps2.executeQuery();
         if (rs2.next()) ongoingCount = rs2.getInt(1);
 
-        ResultSet rs3 = st.executeQuery(sqlCompleted);
+        // 3. Get completed projects for this specific supervisor
+        PreparedStatement ps3 = conn.prepareStatement(sqlCompleted);
+        ps3.setInt(1, loggedInUserId);
+        ResultSet rs3 = ps3.executeQuery();
         if (rs3.next()) completedCount = rs3.getInt(1);
 
-        // 3. Set attributes for the JSP to read
+        // --- END OF PREPAREDSTATEMENT IMPLEMENTATION ---
+        
+        // --- ADD THESE LINES TO FIX THE ERROR ---
         request.setAttribute("full_name", fullName);
         request.setAttribute("user_id", loggedInUserId);
         request.setAttribute("totalStudents", totalStudents);

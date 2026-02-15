@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import model.DBConnection;
@@ -12,10 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-/**
- *
- * @author Alis anissa
- */
 @WebServlet(name = "UpdateMilestoneServlet", urlPatterns = {"/UpdateMilestoneServlet"})
 public class UpdateMilestoneServlet extends HttpServlet {
 
@@ -23,30 +14,39 @@ public class UpdateMilestoneServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        // 1. Retrieve data from the form
         String milestoneIdStr = request.getParameter("milestoneId");
-        String milestoneName = request.getParameter("milestoneName");
+        String projectId = request.getParameter("projectId"); 
+        String title = request.getParameter("title"); 
         String task = request.getParameter("task");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
+        String startDateStr = request.getParameter("startDate");
+        String endDateStr = request.getParameter("endDate");
         
-        if (milestoneIdStr != null) {
+        if (milestoneIdStr != null && !milestoneIdStr.isEmpty()) {
             try (Connection conn = DBConnection.getConnection()) {
-                String sql = "UPDATE APP.MILESTONE SET MILESTONE_NAME=?, TASK=?, START_DATE=?, END_DATE=? WHERE MILESTONE_ID=?";
+                // Ensure SQL matches your database columns (TITLE, not MILESTONE_NAME)
+                String sql = "UPDATE APP.MILESTONE SET TITLE=?, TASK=?, START_DATE=?, END_DATE=? WHERE MILESTONE_ID=?";
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setString(1, milestoneName);
+                
+                ps.setString(1, title);
                 ps.setString(2, task);
-                ps.setDate(3, java.sql.Date.valueOf(startDate));
-                ps.setDate(4, java.sql.Date.valueOf(endDate));
+
+                // Handle the "T" from datetime-local and add seconds
+                String startTs = startDateStr.replace("T", " ") + ":00";
+                String endTs = endDateStr.replace("T", " ") + ":00";
+                
+                ps.setTimestamp(3, java.sql.Timestamp.valueOf(startTs));
+                ps.setTimestamp(4, java.sql.Timestamp.valueOf(endTs));
                 ps.setInt(5, Integer.parseInt(milestoneIdStr));
                 
-                int rowsUpdated = ps.executeUpdate();
-                if (rowsUpdated > 0) {
-                    System.out.println("Milestone " + milestoneIdStr + " updated successfully.");
-                }
-            } catch (SQLException | NumberFormatException e) {
+                ps.executeUpdate();
+                
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        } // Redirect back to milestone list 
-        response.sendRedirect(request.getContextPath() + "/MilestoneServlet");
-    } 
+        } 
+        
+        // Redirect back to Project Details
+        response.sendRedirect("ProjectDetailsServlet?id=" + projectId + "&status=updated");
+    }
 }

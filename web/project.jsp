@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="project" class="model.ProjectBean" scope="request" />
 
 <!DOCTYPE html>
@@ -224,8 +225,8 @@
             text-align: center;
         }
 
-        .open { background: #e0f2fe; color: #0369a1; }
-        .completed { background: #dcfce7; color: #15803d; }
+        .pending { background: #e0f2fe; color: #0369a1; }
+        .submitted { background: #dcfce7; color: #15803d; }
 
         /* Action Links */
         .action-links { display: flex; gap: 15px; }
@@ -313,10 +314,11 @@
             </div>
 
             <div class="action-buttons">
-                <button class="btn-primary" onclick="location.href='add-milestone.jsp'">
+                
+                <button class="btn-primary" onclick="location.href='add-milestone.jsp?projectId=${project.project_id}'">
                     <i class="fas fa-plus"></i> Add Milestone
                 </button>
-
+               
                 <form action="UpdateProjectStatusServlet" method="POST" style="display:inline;" 
                         onsubmit="return confirm('Are you sure you want to mark this project as completed?');">
 
@@ -331,7 +333,7 @@
         </div> <%-- <--- ADDED THIS MISSING CLOSING DIV --%>
 
         <div class="summary-section">
-            <h1>Milestone List</h1>
+            <h1>Milestone Progress</h1>
         </div>
 
         <div class="table-wrapper">
@@ -339,7 +341,8 @@
                 <thead>
                     <tr>
                         <th style="width: 60px;">No</th>
-                        <th>Milestone</th>
+                        <th>Task</th>
+                        <th>Description</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th style="width: 140px;">Status</th>
@@ -366,10 +369,11 @@
                             <tr>
                                 <td>${loop.index + 1}</td>
                                 <td><strong>${m.title}</strong></td>
-                                <td>${m.start_date}</td>
-                                <td>${m.end_date}</td>
+                                <td>${m.task}</td>
+                                <td><fmt:formatDate value="${m.start_date}" pattern="dd MMM yyyy, hh:mm a" /></td>
+                                <td><fmt:formatDate value="${m.end_date}" pattern="dd MMM yyyy, hh:mm a" /></td>
                                 <td>
-                                    <span class="status-pill ${m.status eq 'Open' ? 'open' : 'completed'}">
+                                    <span class="status-pill ${m.status eq 'Pending' ? 'pending' : 'submitted'}">
                                         ${m.status}
                                     </span>
                                 </td>
@@ -408,5 +412,18 @@
             </div>
         </div>
     </footer>
+                    
+<script>
+    // Check the URL for the 'status' parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('status') === 'success') {
+        alert("Success! You have successfully added a new milestone.");
+        
+        // Clean the URL so the popup doesn't appear again if the user refreshes
+        window.history.replaceState({}, document.title, window.location.pathname + "?id=" + urlParams.get('id'));
+    }
+</script>
+
 </body>
 </html>

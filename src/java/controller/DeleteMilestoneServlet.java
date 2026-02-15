@@ -29,24 +29,38 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "DeleteMilestoneServlet", urlPatterns = {"/DeleteMilestoneServlet"})
 public class DeleteMilestoneServlet extends HttpServlet {
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
+
+        // 1. Capture the IDs from your form
         String milestoneIdStr = request.getParameter("milestoneId");
-        
-        if (milestoneIdStr != null) {
-            try (Connection conn = DBConnection.getConnection()) {
+        String projectId = request.getParameter("projectId"); 
+
+        // 2. Validate and Execute Delete
+        if (milestoneIdStr != null && !milestoneIdStr.isEmpty()) {
+            try (Connection conn = model.DBConnection.getConnection()) {
+                // Include APP. prefix for Derby schema compatibility
                 String sql = "DELETE FROM APP.MILESTONE WHERE MILESTONE_ID=?";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, Integer.parseInt(milestoneIdStr));
+
                 ps.executeUpdate();
+                System.out.println("DEBUG: Milestone " + milestoneIdStr + " deleted successfully.");
+
             } catch (SQLException | NumberFormatException e) {
                 e.printStackTrace();
             }
         } 
-       // Redirect balik ke senarai milestone 
-   response.sendRedirect("MilestoneServlet");
+
+        // 3. The most important part: Redirect back to the correct Project Details page
+        // This uses the projectId you passed from project.jsp
+        if (projectId != null && !projectId.isEmpty()) {
+            response.sendRedirect("ProjectDetailsServlet?id=" + projectId);
+        } else {
+            // Fallback if projectId is somehow missing
+            response.sendRedirect("ProjectListServlet");
+        }
     }
 }
