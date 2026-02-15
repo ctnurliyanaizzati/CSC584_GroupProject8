@@ -30,8 +30,8 @@
         full_name = user.getFull_name();
         user_id = String.valueOf(user.getUser_id());
     } else {
-        full_name = "NUR SYAFIQAH";
-        user_id = "2025000000";
+        full_name = "NULL";
+        user_id = "NULL";
     }
     
     //Get milestone_id from URL ?milestone_id=XXX

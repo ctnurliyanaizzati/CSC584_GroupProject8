@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.MilestoneStdBean"%>
+<%@page import="model.UserBean"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -202,13 +203,22 @@
 </style>
 </head>
 <body>
-
+<%
+    //get data send by ViewMilestoneSvServlet
+    MilestoneStdBean milestone = (MilestoneStdBean) request.getAttribute("data");
+    UserBean user = (UserBean) request.getAttribute("userData");
+    
+    String SvName = "Supervisor";
+    if (user != null && user.getFull_name() != null) {
+        SvName = user.getFull_name();
+    }
+%>
 <!-- HEADER -->
 <div class="header">
     <div class="user-info">
         <div class="avatar"></div>
         <div>
-            <strong>DR. AHMAD BIN ALI</strong><br>
+            <strong><%= SvName %></strong><br>
             <small>Supervisor</small>
         </div>
     </div>
@@ -219,10 +229,6 @@
     </div>
 <!-- CONTENT -->
 
-<%
-    //get data send by ViewMilestoneSvServlet
-    MilestoneStdBean milestone = (MilestoneStdBean) request.getAttribute("data");
-%>
 
 <div class="container">
     <h2>View Project Milestone</h2>
@@ -269,7 +275,7 @@
 
    <div class="btn-group">
         <button type="submit" class="btn-submit">Save</button>
-        <button type="button" class="btn-close" onclick="window.location.href='projectlist.jsp'">Close</button>
+        <button type="button" class="btn-close" onclick="window.location.href='ProjectDetailsServlet'">Close</button>
     </div>
     </form>
     

@@ -378,7 +378,7 @@
                                     </span>
                                 </td>
                                 <td class="action-links">
-                                    <a href="view-milestone.jsp?milestoneId=${m.milestone_id}">
+                                    <a href="ViewMilestoneSvServlet?milestone_id=${m.milestone_id}">
                                         <i class="far fa-eye"></i> View
                                     </a>
                                     <a href="edit-milestone.jsp?milestoneId=${m.milestone_id}">

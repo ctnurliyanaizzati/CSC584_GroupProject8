@@ -77,10 +77,18 @@ public class ViewMilestoneSvServlet extends HttpServlet {
         String mIdParam = request.getParameter("milestone_id");
         
         if (mIdParam != null) {
-        int mId = Integer.parseInt(mIdParam);
+            int mId = Integer.parseInt(mIdParam);
+            //int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
+            MilestoneStdBean milestone = new MilestoneStdBean();
+            UserBean user = new UserBean();
+            
+            javax.servlet.http.HttpSession session = request.getSession(); //get data SV from session
+            UserBean currentUser = (UserBean) session.getAttribute("userData");
         
-        //int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
-        MilestoneStdBean milestone = new MilestoneStdBean();
+            if (currentUser != null) {
+                // Kita setkan nama SV ke dalam bean 'full_name'
+                user.setFull_name(currentUser.getFull_name());
+            }
                
         try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
@@ -119,6 +127,7 @@ public class ViewMilestoneSvServlet extends HttpServlet {
         }
         
         request.setAttribute("data", milestone);
+        request.setAttribute("userData", user);
         request.getRequestDispatcher("view-milestone.jsp").forward(request, response);
 
         }
