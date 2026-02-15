@@ -30,9 +30,8 @@ public class RegisterServlet extends HttpServlet {
         Connection conn = null;
         PreparedStatement psCheck = null;
         PreparedStatement psUpdate = null;
-        
+
         try {
-            
             int userId = Integer.parseInt(userIdStr);
 
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -46,9 +45,9 @@ public class RegisterServlet extends HttpServlet {
             if (rs.next()) {
                 String updateSql = "UPDATE USERS SET email = ?, password = ?, program_code = ?, sessions = ? WHERE user_id = ?";
                 psUpdate = conn.prepareStatement(updateSql);
-                
+
                 psUpdate.setString(1, email);
-                psUpdate.setString(2, password); 
+                psUpdate.setString(2, password);
                 psUpdate.setString(3, program);
                 psUpdate.setString(4, sessionVal);
                 psUpdate.setInt(5, userId);
@@ -56,14 +55,14 @@ public class RegisterServlet extends HttpServlet {
                 int rowsUpdated = psUpdate.executeUpdate();
 
                 if (rowsUpdated > 0) {
-                    response.sendRedirect("login.html?success=1");
+                    response.sendRedirect("login.jsp?success=1");
                 } else {
-                    response.sendRedirect("register.html?error=failed");
+                    response.sendRedirect("register.jsp?error=failed");
                 }
             } else {
-                response.sendRedirect("register.html?error=unauthorized");
+                response.sendRedirect("register.jsp?error=unauthorized");
             }
-            
+
         } catch (NumberFormatException e) {
             response.getWriter().println("Error: User ID must be a numeric value.");
         } catch (SQLException e) {
