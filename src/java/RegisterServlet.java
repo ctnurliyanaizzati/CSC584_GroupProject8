@@ -30,58 +30,69 @@ public class RegisterServlet extends HttpServlet {
         Connection conn = null;
         PreparedStatement psCheck = null;
         PreparedStatement psUpdate = null;
-        
+
         try {
-            
             int userId = Integer.parseInt(userIdStr);
 
+            // Load JDBC driver and establish the connection
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 
+            // Step 1: Check if the user ID exists in the database
             String checkSql = "SELECT user_id FROM USERS WHERE user_id = ?";
             psCheck = conn.prepareStatement(checkSql);
             psCheck.setInt(1, userId);
             ResultSet rs = psCheck.executeQuery();
 
             if (rs.next()) {
+                // User exists, update their details
                 String updateSql = "UPDATE USERS SET email = ?, password = ?, program_code = ?, sessions = ? WHERE user_id = ?";
                 psUpdate = conn.prepareStatement(updateSql);
-                
+
+                // Set the PreparedStatement parameters
                 psUpdate.setString(1, email);
-                psUpdate.setString(2, password); 
+                psUpdate.setString(2, password); // Consider hashing the password for security
                 psUpdate.setString(3, program);
                 psUpdate.setString(4, sessionVal);
                 psUpdate.setInt(5, userId);
 
+                // Execute the update query
                 int rowsUpdated = psUpdate.executeUpdate();
 
                 if (rowsUpdated > 0) {
-                    response.sendRedirect("login.html?success=1");
+                    // Redirect to login.jsp on success
+                    response.sendRedirect("login.jsp?success=1");
                 } else {
-                    response.sendRedirect("register.html?error=failed");
+                    // If update failed, show a failure message
+                    response.sendRedirect("register.jsp?error=failed");
                 }
             } else {
-                response.sendRedirect("register.html?error=unauthorized");
+                // If user ID doesn't exist, show unauthorized error
+                response.sendRedirect("register.jsp?error=unauthorized");
             }
-            
+
         } catch (NumberFormatException e) {
+            // Handle invalid userId format
             response.getWriter().println("Error: User ID must be a numeric value.");
         } catch (SQLException e) {
+            // Handle SQL-related errors (e.g., duplicate key violation)
             e.printStackTrace();
 
+            // Check for a duplicate key error based on message
             if (e.getMessage().contains("duplicate") || e.getMessage().contains("UNIQUE")) {
                 response.getWriter().println("Error: Duplicate key violation - This user ID already exists.");
             } else {
                 response.getWriter().println("Database Error: " + e.getMessage());
             }
         } catch (Exception e) {
+            // Handle any other exceptions
             e.printStackTrace();
             response.getWriter().println("Error: " + e.getMessage());
         } finally {
+            // Close database resources
             try { if (psCheck != null) psCheck.close(); } catch (Exception e) {}
             try { if (psUpdate != null) psUpdate.close(); } catch (Exception e) {}
             try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
     }
 }
-
