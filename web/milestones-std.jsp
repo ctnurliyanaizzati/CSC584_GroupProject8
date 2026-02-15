@@ -65,12 +65,12 @@
                 <span class="student-id" id="studentId"><%= user_id %></span>
             </span>
         </div>
-        <nav id="i97rf" class="header-actions">
-          <button type="button" id="i3ep7" aria-label="Logout" class="header-button">
-            <img src="https://api.iconify.design/lucide-log-out.svg?color=white" alt="" aria-hidden="true" id="ioe0dd" />
-            Logout
-          </button>
-        </nav>
+       <nav id="i97rf" class="header-actions">
+        <a href="logout.jsp" id="i3ep7" class="header-button" style="text-decoration: none; color: white; display: flex; align-items: center;">
+                <img src="https://api.iconify.design/lucide-log-out.svg?color=white" alt="" aria-hidden="true" id="ioe0dd" />
+                Logout
+        </a>
+       </nav>
       </div>
     </header>
       

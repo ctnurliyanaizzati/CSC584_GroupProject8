@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.MilestoneStdBean;
+import model.UserBean;
 
 /**
  *
@@ -42,12 +43,24 @@ public class MilestoneStdServlet extends HttpServlet {
         
         String searchQuery = request.getParameter("searchQuery");
         //use sample project_id for testing
-        int project_id = 1;
+        //int project_id = 1;
         List<MilestoneStdBean> milestoneList = new ArrayList<>();
+        
+        javax.servlet.http.HttpSession session = request.getSession();
+        UserBean user = (UserBean) session.getAttribute("userData");
+       
+        if (user == null) {
+            response.sendRedirect("login.jsp"); 
+            return;
+        }
+        
+        int student_id = user.getUser_id();
         
         try{
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
-            String query = "SELECT * FROM MILESTONE WHERE project_id = ?";
+            String query = "SELECT M.* FROM MILESTONE M " +
+               "JOIN PROJECT P ON M.PROJECT_ID = P.PROJECT_ID " +
+               "WHERE P.STUDENT_ID = ?";
             
             //Filtering logic if user search
             boolean isSearching = (searchQuery != null && !searchQuery.trim().isEmpty());
@@ -57,7 +70,7 @@ public class MilestoneStdServlet extends HttpServlet {
             query += " ORDER BY milestone_id ASC";
             
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, project_id);
+            stmt.setInt(1, student_id);
             
             // 4. Set parameter for LIKE
         if (isSearching) {

@@ -21,7 +21,7 @@ public class ProjectBean implements Serializable {
     private String sessions;
     private int total_tasks;
     private int pending_tasks;
-    private int completed_tasks;
+    private int submitted_tasks;
     
     public ProjectBean(){
         
@@ -99,12 +99,12 @@ public class ProjectBean implements Serializable {
         this.pending_tasks = pending_tasks;
     }
 
-    public int getCompleted_tasks() {
-        return completed_tasks;
+    public int getSubmitted_tasks() {
+        return submitted_tasks;
     }
 
-    public void setCompleted_tasks(int completed_tasks) {
-        this.completed_tasks = completed_tasks;
+    public void setSubmitted_tasks(int completed_tasks) {
+        this.submitted_tasks = completed_tasks;
     }
     
         // Add this near the top with other variables

@@ -60,7 +60,7 @@ public class dashboardStdServlet extends HttpServlet {
                            "u_sv.full_name AS sv_name, " +
                            "(SELECT COUNT(*) FROM MILESTONE m WHERE m.project_id = p.project_id) AS total_milestones, " +
                            "(SELECT COUNT(*) FROM MILESTONE m WHERE m.project_id = p.project_id AND m.status = 'Pending') AS pending_count, " +
-                           "(SELECT COUNT(*) FROM MILESTONE m WHERE m.project_id = p.project_id AND m.status = 'Completed') AS completed_count " +
+                           "(SELECT COUNT(*) FROM MILESTONE m WHERE m.project_id = p.project_id AND m.status = 'Submitted') AS completed_count " +
                            "FROM PROJECT p " +
                            "JOIN USERS u_std ON p.student_id = u_std.user_id " +
                            "JOIN USERS u_sv ON p.supervisor_id = u_sv.user_id " +
@@ -85,7 +85,7 @@ public class dashboardStdServlet extends HttpServlet {
                 //Project Status
                 project.setTotal_tasks(rs.getInt("total_milestones"));
                 project.setPending_tasks(rs.getInt("pending_count"));
-                project.setCompleted_tasks(rs.getInt("completed_count"));
+                project.setSubmitted_tasks(rs.getInt("completed_count"));
             }
             conn.close();
         } catch (Exception e) {

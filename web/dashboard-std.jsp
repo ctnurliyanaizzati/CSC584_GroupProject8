@@ -105,8 +105,8 @@
                 <div class="metric-item" id="ief3kd">
                   <img src="https://api.iconify.design/lucide-check-circle.svg?color=%23374151" alt="" aria-hidden="true" loading="lazy" class="metric-icon" id="i6famy" />
                   <div id="i3awfd">
-                    <div class="metric-value" id="iax1eu"><%= project.getPending_tasks() %></div>
-                    <div class="metric-label" id="inm4ry">Completed Tasks</div>
+                    <div class="metric-value" id="iax1eu"><%= project.getSubmitted_tasks() %></div>
+                    <div class="metric-label" id="inm4ry">Submitted Tasks</div>
                   </div>
                 </div>
               </div>
