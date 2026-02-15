@@ -78,17 +78,11 @@ public class ViewMilestoneSvServlet extends HttpServlet {
         
         if (mIdParam != null) {
             int mId = Integer.parseInt(mIdParam);
-            //int milestoneId = Integer.parseInt(request.getParameter("milestone_id"));
             MilestoneStdBean milestone = new MilestoneStdBean();
-            UserBean user = new UserBean();
+            //UserBean user = new UserBean();
             
             javax.servlet.http.HttpSession session = request.getSession(); //get data SV from session
-            UserBean currentUser = (UserBean) session.getAttribute("userData");
-        
-            if (currentUser != null) {
-                // Kita setkan nama SV ke dalam bean 'full_name'
-                user.setFull_name(currentUser.getFull_name());
-            }
+            UserBean user = (UserBean) session.getAttribute("userData");
                
         try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");

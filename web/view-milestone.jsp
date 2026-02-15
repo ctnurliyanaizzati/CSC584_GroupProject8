@@ -208,6 +208,10 @@
     MilestoneStdBean milestone = (MilestoneStdBean) request.getAttribute("data");
     UserBean user = (UserBean) request.getAttribute("userData");
     
+    if (user == null) {
+        user = (UserBean) session.getAttribute("userData");
+    }
+    
     String SvName = "Supervisor";
     if (user != null && user.getFull_name() != null) {
         SvName = user.getFull_name();
@@ -222,10 +226,10 @@
             <small>Supervisor</small>
         </div>
     </div>
-    <button class="logout">Logout</button>
+    <button class="logout" onclick="window.location.href='logout.jsp'">Logout</button>
 </div>
  <div class="breadcrumb">
-           <a href="dashboard-sv.jsp">Dashboard</a> / <a href="projectlist.jsp"><strong> Project List</strong></a>
+           <a href="dashboardSvServlet">Dashboard</a> / <a href="ProjectDetailsServlet"><strong> Project List</strong></a>
     </div>
 <!-- CONTENT -->
 
