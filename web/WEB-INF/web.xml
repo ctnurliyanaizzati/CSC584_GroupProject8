@@ -9,10 +9,6 @@
         <servlet-class>controller.MilestoneStdServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SubmissionStdServlet</servlet-name>
-        <servlet-class>controller.SubmissionStdServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewMilestoneSvServlet</servlet-name>
         <servlet-class>controller.ViewMilestoneSvServlet</servlet-class>
     </servlet>
@@ -23,10 +19,6 @@
     <servlet-mapping>
         <servlet-name>MilestoneStdServlet</servlet-name>
         <url-pattern>/MilestoneStdServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SubmissionStdServlet</servlet-name>
-        <url-pattern>/SubmissionStdServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewMilestoneSvServlet</servlet-name>

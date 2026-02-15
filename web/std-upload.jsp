@@ -97,14 +97,14 @@
                     <div class="upload-dz-text">Drag &amp; drop your file here</div>
                     <div class="upload-dz-or">or</div>
                     <label class="upload-browse-btn" for="fileInput">Browse files</label>
-                    <input id="fileInput" name="submission_file_path" type="file" hidden />
+                    <input id="fileInput" name="submission_file" type="file" hidden />
                 </div>
             </div>
             <div id="fileName" class="upload-file-name" aria-live="polite"></div>
 
         <!-- Remarks -->
             <label class="upload-label" for="remarks">Remarks</label>
-            <textarea id="remarks" name="remarks" class="upload-input" rows="4"
+            <textarea id="remarks" name="submission_remarks" class="upload-input" rows="4"
                 placeholder="Add any notes or context for the file..."></textarea>
         </div>
 

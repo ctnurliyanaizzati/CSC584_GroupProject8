@@ -18,9 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import model.MilestoneStdBean;
+import model.UserBean;
 
-//@WebServlet("/SubmissionStdServlet")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+@WebServlet(name = "SubmissionStdServlet", urlPatterns = {"/SubmissionStdServlet"})
+@MultipartConfig(location = "C:/FYPTrackerFile/StudentSubmission",
+                 fileSizeThreshold = 1024 * 1024 * 2, // 2MB
                  maxFileSize = 1024 * 1024 * 10,      // 10MB
                  maxRequestSize = 1024 * 1024 * 50)   // 50MB
 /**
@@ -42,22 +45,29 @@ public class SubmissionStdServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        //Get data from form JSP
+        /*//Get data from form JSP
         String milestoneId = request.getParameter("milestone_id");
         String remarks = request.getParameter("remarks");
         Part filePart = request.getPart("submission_file_path"); 
         //String fileName = (filePart != null) ? filePart.getSubmittedFileName(): "no_file";
         
-        String savePath = "C:\\FYPTrackerFile\\StudentSubmission";
-        String fileName = "no_file";
+        //String savePath = "C:\\FYPTrackerFile\\StudentSubmission";
+        //String fileName = "no_file";
         String fullFilePath = "";
         
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = filePart.getSubmittedFileName();
-            fullFilePath = savePath + "\\" + fileName;
+            
+            String fileName = milestoneId + "_" + filePart.getSubmittedFileName();
+            
+            String savePath = "C:/FYPTrackerFile/StudentSubmission/";
+            java.io.File uploadDir = new java.io.File(savePath);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+            
+            filePart.write(savePath + fileName); 
+            fullFilePath = savePath + fileName;
         
-        // 3. Simpan fail ke folder fizikal
-        filePart.write(fullFilePath);
+            // 3. Simpan fail ke folder fizikal
+            //filePart.write(fullFilePath);
     }
         
         
@@ -86,7 +96,7 @@ public class SubmissionStdServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Error Database: " + e.getMessage());
-        } 
+        } */
         
     }   
 
@@ -116,7 +126,74 @@ public class SubmissionStdServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
+        String mIdStr = request.getParameter("milestone_id");
+        int milestone_id = Integer.parseInt(mIdStr);
+        String submission_remarks = request.getParameter("submission_remarks");
+       //int submission_id = Integer.parseInt(mIdStr);
+              
+       javax.servlet.http.Part filePart = request.getPart("submission_file");
+       String filePathStd = "";
+        
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+                    
+            /*String folderPath = "C:/FYPTrackerFile";
+            java.io.File fileSaveDir = new java.io.File(folderPath);
+            
+            if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+            
+            filePathSv = folderPath + "/" + fileName;*/
+            
+            filePart.write(fileName);
+            filePathStd = "C:/FYPTrackerFile/StudentSubmission/" + fileName; // Simpan path penuh dalam DB
+        }
+        
+        //get SV id from login session
+        UserBean currentUser = (UserBean) request.getSession().getAttribute("userData");
+        int student_id = (currentUser != null) ? currentUser.getUser_id() : 1001;
+        
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
+            
+            // DELETE old feedback if exist to avoid duplicate
+            String deleteQuery = "DELETE FROM SUBMISSION WHERE MILESTONE_ID = ?";
+            PreparedStatement delStmt = conn.prepareStatement(deleteQuery);
+            delStmt.setInt(1, milestone_id);
+            delStmt.executeUpdate();
+            
+            // INSERT feedback
+            String insertSQL = "INSERT INTO SUBMISSION (MILESTONE_ID, SUBMISSION_DATE, SUBMISSION_FILE_PATH, SUBMISSION_REMARKS) VALUES (?, CURRENT_TIMESTAMP, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(insertSQL);
+            stmt.setInt(1, milestone_id);
+            stmt.setString(2, filePathStd);
+            stmt.setString(3, submission_remarks);
+            stmt.executeUpdate();
+            
+            //UPDATE status
+            String updateStatusSQL = "UPDATE MILESTONE SET STATUS = 'Submitted' WHERE MILESTONE_ID = ?";
+            PreparedStatement upStmt = conn.prepareStatement(updateStatusSQL);
+            upStmt.setInt(1, milestone_id);
+            upStmt.executeUpdate();
+            
+            /*String query = "INSERT INTO FEEDBACK (SUBMISSION_ID, SUPERVISOR_ID, FEEDBACK_FILE_PATH, FEEDBACK_TEXT) VALUES (?, ?, ?, ?)";
+                        
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, milestone_id);
+            stmt.setInt(2, supervisor_id); //user id from session
+            stmt.setString(3, filePathSv);
+            stmt.setString(4, feedbackSv);
+            stmt.executeUpdate();*/
+
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        response.sendRedirect("MilestoneStdServlet?milestone_id=" + milestone_id + "&status=success");
     }
 
     /**

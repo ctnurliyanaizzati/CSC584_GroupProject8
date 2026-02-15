@@ -100,7 +100,7 @@
                 </div>
               </div>
           </div>
-          <div class="filters-bar" id="filters-bar">
+          <%--<div class="filters-bar" id="filters-bar">
               <div class="status-filters" id="ibtlf">
                 <span class="status-label" id="idxdm">Status:</span>
                     <fieldset class="status-fieldset" id="ig25s">
@@ -137,7 +137,7 @@
                     </div>
                 </form>
             </div>
-          </div>
+          </div>--%>
           <div class="divider" id="i46jg"></div>
           
             
