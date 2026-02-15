@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Details | FYP Supervision</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         /* --- INTEGRATED STYLES --- */
@@ -267,6 +268,14 @@
         }
 
         .footer-links { display: flex; gap: 24px; }
+        
+        .action-links button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-family: inherit;
+    }
     </style>
 </head>
 <body>
@@ -381,9 +390,11 @@
                                     <a href="ViewMilestoneSvServlet?milestone_id=${m.milestone_id}">
                                         <i class="far fa-eye"></i> View
                                     </a>
-                                    <a href="edit-milestone.jsp?milestoneId=${m.milestone_id}">
+
+                                    <a href="UpdateMilestoneServlet?milestoneId=${m.milestone_id}">
                                         <i class="far fa-edit"></i> Edit
-                                    </a>
+                                    </a>    
+                                    
                                     <form action="DeleteMilestoneServlet" method="POST" style="display:inline;"
                                           onsubmit="return confirm('Are you sure you want to delete this milestone?');">
                                         <input type="hidden" name="milestoneId" value="${m.milestone_id}">
@@ -412,16 +423,42 @@
             </div>
         </div>
     </footer>
-                    
+
+<%-- SINGLE COMBINED NOTIFICATION SCRIPT --%>
 <script>
-    // Check the URL for the 'status' parameter
+    // 1. Get the parameters once
     const urlParams = new URLSearchParams(window.location.search);
-    
-    if (urlParams.get('status') === 'success') {
-        alert("Success! You have successfully added a new milestone.");
-        
-        // Clean the URL so the popup doesn't appear again if the user refreshes
-        window.history.replaceState({}, document.title, window.location.pathname + "?id=" + urlParams.get('id'));
+    const status = urlParams.get('status');
+    const projectId = urlParams.get('id');
+
+    // 2. Logic for Adding a New Milestone
+    if (status === 'success') {
+        Swal.fire({
+            title: 'Added!',
+            text: 'You have successfully added a new milestone.',
+            icon: 'success',
+            confirmButtonColor: '#6366f1'
+        }).then(() => {
+            cleanUrl(projectId);
+        });
+    }
+
+    // 3. Logic for Saving Feedback or Updating Milestone
+    else if (status === 'updated') {
+        Swal.fire({
+            title: 'Action Successful!',
+            text: 'The milestone and feedback have been updated.',
+            icon: 'success',
+            confirmButtonColor: '#10b981'
+        }).then(() => {
+            cleanUrl(projectId);
+        });
+    }
+
+    // 4. Helper function to clean the URL bar so popup doesn't repeat on refresh
+    function cleanUrl(id) {
+        const newUrl = id ? window.location.pathname + "?id=" + id : window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
     }
 </script>
 
