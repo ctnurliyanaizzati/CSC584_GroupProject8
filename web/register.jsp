@@ -88,7 +88,7 @@
             <div class="form-field">
                 <label for="program">Program</label>
                 <input type="text" id="program" name="program"
-                       class="input-bar" placeholder="CS240" required />
+                       class="input-bar" placeholder="CS240 / CDCS240" required />
             </div>
 
             <div class="form-field">
