@@ -33,8 +33,8 @@
                 <%
                     if ("unauthorized".equals(error)) {
                         out.print("Access Denied: Your ID is not in our system.");
-                    } else if ("invalid_id".equals(error)) {
-                        out.print("Please enter a valid numeric ID.");
+                    } else if ("failed".equals(error)) {
+                        out.print("Registration Failed: Please try again later.");
                     }
                 %>
             </div>
@@ -59,7 +59,7 @@
                        class="input-bar" placeholder="FULL NAME" required />
             </div>
 
-                <div class="form-field">
+            <div class="form-field">
                 <label for="userId">ID</label>
                 <input type="text" id="userId" name="userId"
                        class="input-bar" placeholder="Student / Supervisor ID" required />
@@ -99,7 +99,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary">Register</button>
-                <a href="<%= request.getContextPath() %>/login.html" class="btn-secondary">Login</a>
+                <a href="<%= request.getContextPath() %>/login.jsp" class="btn-secondary">Login</a>
             </div>
 
         </form>
