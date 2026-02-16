@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,41 +21,14 @@ import model.MilestoneStdBean;
  *
  * @author PIEKA
  */
-
 @WebServlet(name = "feedbackSvServlet", urlPatterns = {"/feedbackSvServlet"})
 public class feedbackSvServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
-        //get milestone_id from url
+        // 1. Get milestone_id from URL (?milestone_id=X)
         String milestoneIdStr = request.getParameter("milestone_id");
         
         if (milestoneIdStr == null) {
@@ -67,13 +39,15 @@ public class feedbackSvServlet extends HttpServlet {
         int milestoneId = Integer.parseInt(milestoneIdStr);
         MilestoneStdBean milestone = new MilestoneStdBean();
         
-        // query to get data from milestone and feedback table
-         try {
-            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app");
+        // 2. Query to bridge Milestone -> Submission -> Feedback
+        try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/FYPTracker", "app", "app")) {
+            
+            // The logic: Find the submission linked to the milestone, then find feedback linked to that submission
             String query = "SELECT m.title, f.feedback_text, f.feedback_file_path " + 
-                   "FROM MILESTONE m " +
-                   "LEFT JOIN FEEDBACK f ON m.milestone_id = f.submission_id " + 
-                   "WHERE m.milestone_id = ?";
+                           "FROM MILESTONE m " +
+                           "LEFT JOIN SUBMISSION s ON m.milestone_id = s.milestone_id " + 
+                           "LEFT JOIN FEEDBACK f ON s.submission_id = f.submission_id " + 
+                           "WHERE m.milestone_id = ?";
             
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, milestoneId);
@@ -85,38 +59,25 @@ public class feedbackSvServlet extends HttpServlet {
                 milestone.setFeedback_text(rs.getString("feedback_text"));
                 milestone.setFeedback_file_path(rs.getString("feedback_file_path"));
             } 
-            conn.close();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     
-    //store request and send to JSP
-    request.setAttribute("feedbackSv", milestone);
-    request.getRequestDispatcher("feedback-sv.jsp").forward(request, response);
-    
+        // 3. Store the bean and send to the JSP
+        request.setAttribute("feedbackSv", milestone);
+        request.getRequestDispatcher("feedback-sv.jsp").forward(request, response);
     }
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Redirect to GET if POST is accidentally called
+        doGet(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet to retrieve supervisor feedback for students";
+    }
 }
