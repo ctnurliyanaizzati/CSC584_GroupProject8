@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | FYP Supervision</title>
+    <title>Register | FYP Tracker</title>
 
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/register.css">
 </head>
@@ -13,7 +13,7 @@
 
 <header class="app-header">
     <div class="brand">
-        <span class="brand-title">FYP Supervision</span>
+        <span class="brand-title">FYP Tracker</span>
     </div>
 </header>
 
